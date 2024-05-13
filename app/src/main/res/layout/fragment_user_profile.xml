@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_back">
+
+    <ImageView
+        android:id="@+id/photo_user_profile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="@dimen/side_margin"
+        android:layout_marginStart="@dimen/side_margin"
+        android:contentDescription="@string/user_photo"
+        app:layout_constraintBottom_toBottomOf="@id/flow_user_profile"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/flow_user_profile"
+        app:srcCompat="@drawable/ic_profile" />
+
+    <TextView
+        android:id="@+id/name_user_profile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:textSize="@dimen/large_text"
+        tools:text="Vanya Vanechkin" />
+
+    <TextView
+        android:id="@+id/phone_user_profile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/small_text"
+        tools:text="7 (777) 7777777" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/flow_user_profile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/big_side_margin"
+        app:constraint_referenced_ids="name_user_profile,phone_user_profile"
+        app:flow_horizontalAlign="start"
+        app:flow_verticalAlign="center"
+        app:flow_verticalStyle="packed"
+        app:layout_constraintBottom_toBottomOf="@id/photo_user_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/photo_user_profile"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/icon_pin_user_profile"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_marginStart="@dimen/side_margin"
+        android:contentDescription="@string/location"
+        app:layout_constraintBottom_toBottomOf="@id/text_location_user_profile"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/text_location_user_profile"
+        app:srcCompat="@drawable/ic_location_pin" />
+
+    <TextView
+        android:id="@+id/text_location_user_profile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/side_margin"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/medium_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon_pin_user_profile"
+        app:layout_constraintTop_toBottomOf="@id/flow_user_profile"
+        tools:text="u/ Vjcrdf ek/ Gekrbyf, l. 321a" />
+
+    <TextView
+        android:id="@+id/description_user_profile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/side_margin"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:textSize="@dimen/medium_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_location_user_profile"
+        tools:text="opisanie oegwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwpisanie" />
+
+    <View
+        android:id="@+id/divider_user_profile"
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:layout_marginVertical="@dimen/side_margin"
+        android:background="@color/bright_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description_user_profile" />
+
+    <TextView
+        android:id="@+id/text_services"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/side_margin"
+        android:layout_marginVertical="@dimen/big_side_margin"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="@string/services"
+        android:textSize="@dimen/large_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider_user_profile" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/user_services_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/side_margin"
+        android:layout_marginTop="@dimen/big_side_margin"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_services"
+        tools:listitem="@layout/item_user_service_list" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

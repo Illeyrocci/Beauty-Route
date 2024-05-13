@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_back">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_master_appointment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/side_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/photo_master_appointment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/side_margin"
+            android:contentDescription="@string/user_photo"
+            app:layout_constraintBottom_toBottomOf="@id/name_master_appointment"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/name_master_appointment"
+            tools:srcCompat="@drawable/ic_profile" />
+
+        <TextView
+            android:id="@+id/name_master_appointment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/side_margin"
+            android:lines="1"
+            android:ellipsize="end"
+            android:paddingVertical="4dp"
+            android:textSize="@dimen/large_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/icon_more"
+            app:layout_constraintStart_toEndOf="@id/photo_master_appointment"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="521 minutes" />
+
+        <ImageView
+            android:id="@+id/icon_more"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/side_margin"
+            android:contentDescription="@string/next"
+            android:paddingVertical="12dp"
+            app:layout_constraintBottom_toBottomOf="@id/name_master_appointment"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/name_master_appointment"
+            tools:srcCompat="@drawable/ic_right" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/icon_time_appointment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/side_margin"
+        android:contentDescription="@string/duration"
+        app:layout_constraintBottom_toBottomOf="@id/text_duration_appointment"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/text_duration_appointment"
+        app:srcCompat="@drawable/ic_time" />
+
+    <TextView
+        android:id="@+id/text_duration_appointment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/side_margin"
+        android:lines="1"
+        android:ellipsize="end"
+        android:paddingVertical="4dp"
+        android:textSize="@dimen/large_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon_money_appointment"
+        app:layout_constraintTop_toBottomOf="@id/view_master_appointment"
+        tools:text="521 minutes" />
+
+    <ImageView
+        android:id="@+id/icon_money_appointment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/side_margin"
+        android:contentDescription="@string/cost"
+        app:layout_constraintBottom_toBottomOf="@id/text_cost_appointment"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/text_cost_appointment"
+        app:srcCompat="@drawable/ic_money" />
+
+    <TextView
+        android:id="@+id/text_cost_appointment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/side_margin"
+        android:layout_marginTop="@dimen/big_side_margin"
+        android:lines="1"
+        android:ellipsize="end"
+        android:paddingVertical="4dp"
+        android:textSize="@dimen/large_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon_money_appointment"
+        app:layout_constraintTop_toBottomOf="@id/text_duration_appointment"
+        tools:text="521 minutes" />
+
+    <ImageView
+        android:id="@+id/icon_pin_appointment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/side_margin"
+        android:contentDescription="@string/location"
+        app:layout_constraintBottom_toBottomOf="@id/text_location_appointment"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/text_location_appointment"
+        app:srcCompat="@drawable/ic_location_pin" />
+
+    <TextView
+        android:id="@+id/text_location_appointment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/side_margin"
+        android:layout_marginTop="@dimen/big_side_margin"
+        android:lines="1"
+        android:ellipsize="end"
+        android:paddingVertical="4dp"
+        android:textSize="@dimen/large_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon_pin_appointment"
+        app:layout_constraintTop_toBottomOf="@id/text_cost_appointment"
+        tools:text="521 minutes" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/side_margin"
+        android:lines="1"
+        android:text="@string/cancel"
+        android:textColor="@color/red"
+        android:textSize="@dimen/large_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

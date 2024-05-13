@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/text_nearest_appointment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/side_margin"
+        android:lines="1"
+        android:ellipsize="end"
+        android:text="@string/nearest_appointment"
+        android:textSize="@dimen/large_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_nearest_appointment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/side_margin"
+        android:background="@drawable/rounded_24_rectangle"
+        android:backgroundTint="@color/beige"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_nearest_appointment">
+
+        <TextView
+            android:id="@+id/title_nearest_appointment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:ellipsize="end"
+            android:layout_margin="@dimen/side_margin"
+            android:textAlignment="center"
+            android:textSize="@dimen/large_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Название услуги" />
+
+        <ImageView
+            android:id="@+id/location_pin_nearest_appointment"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_marginStart="@dimen/side_margin"
+            android:contentDescription="@string/location"
+            app:layout_constraintBottom_toBottomOf="@id/location_nearest_appointment"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/location_nearest_appointment"
+            app:srcCompat="@drawable/ic_location_pin"/>
+
+        <TextView
+            android:id="@+id/location_nearest_appointment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="@dimen/big_side_margin"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/medium_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/location_pin_nearest_appointment"
+            app:layout_constraintTop_toBottomOf="@id/title_nearest_appointment"
+            tools:text="Pushkina dom Kolotushkina" />
+
+        <TextView
+            android:id="@+id/date_nearest_appointment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/side_margin"
+            android:paddingBottom="@dimen/side_margin"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/medium_text"
+            app:layout_constraintEnd_toStartOf="@id/name_nearest_appointment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/time_nearest_appointment"
+            tools:text="16 dekabra 2004"
+            android:maxWidth="200dp"/>
+
+        <TextView
+            android:id="@+id/time_nearest_appointment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/side_margin"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/medium_text"
+            android:maxWidth="200dp"
+            android:ellipsize="end"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/location_nearest_appointment"
+            tools:text="20:45" />
+
+        <TextView
+            android:id="@+id/name_nearest_appointment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="@dimen/side_margin"
+            android:gravity="bottom|end"
+            android:paddingBottom="@dimen/side_margin"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/medium_text"
+            app:layout_constraintBottom_toBottomOf="@id/date_nearest_appointment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/date_nearest_appointment"
+            app:layout_constraintTop_toBottomOf="@id/location_nearest_appointment"
+            tools:text="Миронова Анастасия" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
