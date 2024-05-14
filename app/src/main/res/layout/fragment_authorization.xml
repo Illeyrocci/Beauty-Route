@@ -22,9 +22,9 @@
         android:backgroundTint="@color/beige"
         android:ems="10"
         android:hint="@string/phone_number"
+        android:inputType="phone"
         android:lines="1"
         android:maxLines="1"
-        android:inputType="phone"
         android:minWidth="250dp"
         android:padding="16dp" />
 
@@ -36,10 +36,10 @@
         android:background="@drawable/rounded_16_rectangle"
         android:backgroundTint="@color/beige"
         android:ems="10"
-        android:lines="1"
-        android:maxLines="1"
         android:hint="@string/password"
         android:inputType="textPassword"
+        android:lines="1"
+        android:maxLines="1"
         android:minWidth="250dp"
         android:padding="16dp" />
 
@@ -53,31 +53,40 @@
         android:text="@string/authorize"
         android:textSize="@dimen/medium_text" />
 
-    <TextView
-        android:id="@+id/text_sign_up"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:paddingBottom="2dp"
-        android:text="@string/register"
-        android:lines="1"
-        android:textColor="@color/grey"
-        android:textSize="@dimen/medium_text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ic_sign_up" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <ImageView
-        android:id="@+id/ic_sign_up"
-        android:layout_width="30dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:contentDescription="@string/next"
-        android:paddingVertical="6dp"
-        app:layout_constraintBottom_toBottomOf="@id/text_sign_up"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/text_sign_up"
-        app:srcCompat="@drawable/ic_right"
-        app:tint="@color/grey" />
+        <TextView
+            android:id="@+id/text_sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:lines="1"
+            android:paddingBottom="2dp"
+            android:text="@string/register"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/medium_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ic_sign_up" />
+
+        <ImageView
+            android:id="@+id/ic_sign_up"
+            android:layout_width="30dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/next"
+            android:paddingVertical="6dp"
+            app:layout_constraintBottom_toBottomOf="@id/text_sign_up"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_sign_up"
+            app:srcCompat="@drawable/ic_right"
+            app:tint="@color/grey" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.helper.widget.Flow
         android:id="@+id/flow"

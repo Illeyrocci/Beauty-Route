@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    android:paddingBottom="12dp"
-    android:background="@color/white_back">
+    android:background="@color/white_back"
+    android:paddingBottom="12dp">
 
     <View
         android:id="@+id/divider_stroke_user"
@@ -19,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/name_user_services_list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -27,11 +26,14 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="@dimen/side_margin"
         android:layout_marginBottom="@dimen/side_margin"
+        android:background="@android:color/transparent"
+        android:hint="@string/service_name"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
         android:textSize="@dimen/medium_text"
         app:layout_constraintEnd_toStartOf="@id/icon_down"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider_stroke_user"
-        tools:text="Nazvanie uslugi" />
+        app:layout_constraintTop_toBottomOf="@id/divider_stroke_user" />
 
     <ImageView
         android:id="@+id/icon_down"

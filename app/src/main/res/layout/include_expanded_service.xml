@@ -73,7 +73,7 @@
         android:gravity="start"
         android:hint="@string/add_service_description"
         android:importantForAutofill="no"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         android:minHeight="64dp"
         android:padding="8dp"
         android:textSize="@dimen/small_text"

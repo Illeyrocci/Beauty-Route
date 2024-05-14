@@ -1,196 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white_back">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/image_my_profile"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="@dimen/side_margin"
-        android:contentDescription="@string/user_photo"
-        app:layout_constraintBottom_toTopOf="@id/name_my_profile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_profile" />
-
-    <TextView
-        android:id="@+id/name_my_profile"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/side_margin"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:lines="1"
-        android:textSize="@dimen/large_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image_my_profile"
-        tools:text="Ivan Ivan" />
-
-    <TextView
-        android:id="@+id/phone_my_profile"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/side_margin"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:lines="1"
-        android:textColor="@color/grey"
-        android:textSize="@dimen/medium_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/name_my_profile"
-        tools:text="+77777777777" />
-
-    <View
-        android:id="@+id/divider1"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="12dp"
-        android:layout_marginVertical="@dimen/side_margin"
-        android:background="@color/bright_grey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/phone_my_profile" />
-
-    <ImageView
-        android:id="@+id/icon_edit_profile"
-        android:layout_width="@dimen/icon_size"
-        android:layout_height="32dp"
-        android:layout_marginStart="@dimen/side_margin"
-        android:contentDescription="@string/icon_edit_profile"
-        app:layout_constraintBottom_toBottomOf="@id/text_edit_profile"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/text_edit_profile"
-        app:srcCompat="@drawable/ic_edit_profile" />
-
-    <TextView
-        android:id="@+id/text_edit_profile"
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/side_margin"
-        android:ellipsize="end"
-        android:lines="1"
-        android:text="@string/manage_profile"
-        android:textSize="@dimen/medium_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/icon_edit_profile"
-        app:layout_constraintTop_toBottomOf="@id/divider1" />
+        android:background="@color/white_back">
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="12dp"
-        android:layout_marginVertical="@dimen/side_margin"
-        android:background="@color/bright_grey"
-        android:ellipsize="end"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_edit_profile" />
+        <ImageView
+            android:id="@+id/image_my_profile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="@dimen/side_margin"
+            android:contentDescription="@string/user_photo"
+            app:layout_constraintBottom_toTopOf="@id/name_my_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_profile" />
 
-    <ImageView
-        android:id="@+id/icon_my_schedule"
-        android:layout_width="@dimen/icon_size"
-        android:layout_height="@dimen/icon_size"
-        android:layout_marginStart="@dimen/side_margin"
-        android:contentDescription="@string/icon_graphic"
-        app:layout_constraintBottom_toBottomOf="@id/text_schedule"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/text_schedule"
-        app:srcCompat="@drawable/ic_schedule" />
+        <TextView
+            android:id="@+id/name_my_profile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/side_margin"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            android:textSize="@dimen/large_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_my_profile"
+            tools:text="Ivan Ivan" />
 
-    <TextView
-        android:id="@+id/text_schedule"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/side_margin"
-        android:ellipsize="end"
-        android:lines="1"
-        android:text="@string/schedule"
-        android:textSize="@dimen/medium_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/icon_my_schedule"
-        app:layout_constraintTop_toBottomOf="@id/divider2" />
+        <TextView
+            android:id="@+id/phone_my_profile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/side_margin"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/medium_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_my_profile"
+            tools:text="+77777777777" />
 
-    <View
-        android:id="@+id/divider3"
-        android:layout_width="match_parent"
-        android:layout_height="12dp"
-        android:layout_marginVertical="@dimen/side_margin"
-        android:background="@color/bright_grey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_schedule" />
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:layout_marginTop="@dimen/side_margin"
+            android:background="@color/bright_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/phone_my_profile" />
 
-    <TextView
-        android:id="@+id/text_services"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/side_margin"
-        android:layout_marginVertical="@dimen/big_side_margin"
-        android:ellipsize="end"
-        android:lines="1"
-        android:text="@string/my_services"
-        android:textSize="@dimen/large_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider3" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/view_edit_profile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider1">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/user_services_list"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/side_margin"
-        android:layout_marginTop="@dimen/big_side_margin"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_services"
-        tools:listitem="@layout/item_my_service_list" />
+            <ImageView
+                android:id="@+id/icon_edit_profile"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="32dp"
+                android:layout_marginStart="@dimen/side_margin"
+                android:contentDescription="@string/icon_edit_profile"
+                app:layout_constraintBottom_toBottomOf="@id/text_edit_profile"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/text_edit_profile"
+                app:srcCompat="@drawable/ic_edit_profile" />
 
-    <View
-        android:id="@+id/divider_stroke_add"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginHorizontal="@dimen/side_margin"
-        android:background="@color/grey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/user_services_list" />
+            <TextView
+                android:id="@+id/text_edit_profile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:padding="@dimen/side_margin"
+                android:text="@string/manage_profile"
+                android:textSize="@dimen/medium_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/icon_edit_profile"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/text_add_service"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="12dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="@dimen/side_margin"
-        android:ellipsize="end"
-        android:lines="1"
-        android:textSize="@dimen/medium_text"
-        app:layout_constraintEnd_toStartOf="@id/add_service"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider_stroke_add"
-        tools:text="Добавить услугу" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/add_service"
-        android:layout_width="@dimen/icon_size"
-        android:layout_height="@dimen/icon_size"
-        android:layout_marginEnd="24dp"
-        android:contentDescription="@string/add"
-        app:layout_constraintBottom_toBottomOf="@id/text_add_service"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/text_add_service"
-        app:srcCompat="@drawable/ic_add" />
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:background="@color/bright_grey"
+            android:ellipsize="end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_edit_profile" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/view_my_schedule"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider2">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/icon_my_schedule"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_marginStart="@dimen/side_margin"
+                android:contentDescription="@string/icon_graphic"
+                app:layout_constraintBottom_toBottomOf="@id/text_schedule"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/text_schedule"
+                app:srcCompat="@drawable/ic_schedule" />
+
+            <TextView
+                android:id="@+id/text_schedule"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:padding="@dimen/side_margin"
+                android:text="@string/schedule"
+                android:textSize="@dimen/medium_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/icon_my_schedule"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:background="@color/bright_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_my_schedule" />
+
+        <TextView
+            android:id="@+id/text_services"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/side_margin"
+            android:layout_marginVertical="@dimen/big_side_margin"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="@string/my_services"
+            android:textSize="@dimen/large_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider3" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/user_services_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/side_margin"
+            android:layout_marginTop="@dimen/big_side_margin"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_services"
+            tools:listitem="@layout/item_my_service_list" />
+
+        <View
+            android:id="@+id/divider_stroke_add"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="@dimen/side_margin"
+            android:background="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_services_list" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/view_add_service"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_stroke_add">
+
+            <TextView
+                android:id="@+id/text_add_service"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="12dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="@dimen/side_margin"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="@string/add_service"
+                android:textSize="@dimen/medium_text"
+                app:layout_constraintEnd_toStartOf="@id/add_service"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/add_service"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_marginEnd="24dp"
+                android:contentDescription="@string/add"
+                app:layout_constraintBottom_toBottomOf="@id/text_add_service"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/text_add_service"
+                app:srcCompat="@drawable/ic_add" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

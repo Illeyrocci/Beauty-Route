@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.illeyrocci.beautyroute.AuthorizationFragment"
+        android:label=""
+        tools:layout="@layout/fragment_authorization">
+        <action
+            android:id="@+id/login_to_registration"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/login_to_search"
+            app:destination="@id/searchFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.illeyrocci.beautyroute.RegistrationFragment"
+        android:label=""
+        tools:layout="@layout/fragment_registration">
+        <action
+            android:id="@+id/registration_to_search"
+            app:destination="@id/searchFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.illeyrocci.beautyroute.SearchFragment"
+        android:label=""
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/search_to_myProfile"
+            app:destination="@id/myProfileFragment" />
+        <action
+            android:id="@+id/search_to_appointmentList"
+            app:destination="@id/appointmentListFragment" />
+        <action
+            android:id="@+id/search_to_userProfile"
+            app:destination="@id/userProfileFragment" />
+        <action
+            android:id="@+id/search_to_appointment"
+            app:destination="@id/appointmentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/appointmentFragment"
+        android:name="com.illeyrocci.beautyroute.AppointmentFragment"
+        android:label=""
+        tools:layout="@layout/fragment_appointment">
+        <action
+            android:id="@+id/appointment_to_appointmentList"
+            app:destination="@id/appointmentListFragment" />
+        <action
+            android:id="@+id/appointment_to_userProfile"
+            app:destination="@id/userProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/appointmentListFragment"
+        android:name="com.illeyrocci.beautyroute.AppointmentListFragment"
+        android:label=""
+        tools:layout="@layout/fragment_appointment_list">
+        <action
+            android:id="@+id/appointmentList_to_appointment"
+            app:destination="@id/appointmentFragment" />
+        <action
+            android:id="@+id/appointmentList_to_search"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/appointmentList_to_myProfile"
+            app:destination="@id/myProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.illeyrocci.beautyroute.EditProfileFragment"
+        android:label=""
+        tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.illeyrocci.beautyroute.MyProfileFragment"
+        android:label=""
+        tools:layout="@layout/fragment_my_profile">
+        <action
+            android:id="@+id/myProfile_to_editProfile"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/myProfile_to_mySchedule"
+            app:destination="@id/myScheduleFragment" />
+        <action
+            android:id="@+id/myProfile_to_search"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/myProfile_to_appointmentList"
+            app:destination="@id/appointmentListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myScheduleFragment"
+        android:name="com.illeyrocci.beautyroute.MyScheduleFragment"
+        android:label=""
+        tools:layout="@layout/fragment_my_schedule">
+        <action
+            android:id="@+id/mySchedule_to_appointment"
+            app:destination="@id/appointmentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.illeyrocci.beautyroute.UserProfileFragment"
+        android:label=""
+        tools:layout="@layout/fragment_user_profile">
+        <action
+            android:id="@+id/userProfile_to_userSchedule"
+            app:destination="@id/userScheduleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userScheduleFragment"
+        android:name="com.illeyrocci.beautyroute.UserScheduleFragment"
+        android:label=""
+        tools:layout="@layout/fragment_user_schedule">
+        <action
+            android:id="@+id/userSchedule_to_userProfile"
+            app:destination="@id/userProfileFragment" />
+    </fragment>
+</navigation>

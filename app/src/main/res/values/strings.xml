@@ -47,4 +47,6 @@
     <string name="appointments">Записи</string>
     <string name="profile">Профиль</string>
     <string name="choose_day">Выбрать день</string>
+    <string name="service_name">Название услуги</string>
+    <string name="add_service">Добавить услугу</string>
 </resources>
