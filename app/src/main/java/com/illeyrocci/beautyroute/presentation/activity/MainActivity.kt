@@ -1,4 +1,4 @@
-package com.illeyrocci.beautyroute
+package com.illeyrocci.beautyroute.presentation.activity
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -12,6 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.illeyrocci.beautyroute.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -49,4 +49,6 @@
     <string name="choose_day">Выбрать день</string>
     <string name="service_name">Название услуги</string>
     <string name="add_service">Добавить услугу</string>
+    <string name="hint_email">your@email.com</string>
+    <string name="email">Адрес электронной почты</string>
 </resources>

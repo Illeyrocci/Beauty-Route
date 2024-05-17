@@ -1,4 +1,4 @@
-package com.illeyrocci.beautyroute
+package com.illeyrocci.beautyroute.presentation.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.illeyrocci.beautyroute.R
 import com.illeyrocci.beautyroute.databinding.FragmentUserProfileBinding
 
 class UserProfileFragment : Fragment() {

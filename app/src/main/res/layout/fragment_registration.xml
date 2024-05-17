@@ -72,10 +72,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/big_side_margin"
-                android:lines="1"
                 android:layout_marginTop="@dimen/big_side_margin"
-                android:text="@string/password"
+                android:lines="1"
+                android:text="@string/email"
                 android:textSize="@dimen/medium_text" />
+
+            <EditText
+                android:id="@+id/edit_set_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/big_side_margin"
+                android:layout_marginTop="8dp"
+                android:autofillHints="phone"
+                android:background="@drawable/rounded_16_rectangle"
+                android:backgroundTint="@color/beige"
+                android:lines="1"
+                android:ems="10"
+                android:maxLines="1"
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress"
+                android:padding="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/big_side_margin"
+                android:lines="1"
+                android:layout_marginTop="@dimen/side_margin"
+                android:text="@string/password"
+                android:textSize="@dimen/small_text" />
 
             <EditText
                 android:id="@+id/edit_set_password"

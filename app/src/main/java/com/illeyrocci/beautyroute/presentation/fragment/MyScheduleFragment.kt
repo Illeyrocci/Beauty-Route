@@ -1,4 +1,4 @@
-package com.illeyrocci.beautyroute
+package com.illeyrocci.beautyroute.presentation.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,11 +8,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.illeyrocci.beautyroute.databinding.FragmentEditProfileBinding
+import com.illeyrocci.beautyroute.R
+import com.illeyrocci.beautyroute.databinding.FragmentMyScheduleBinding
 
-class EditProfileFragment : Fragment() {
+class MyScheduleFragment : Fragment() {
 
-    private var _binding: FragmentEditProfileBinding? = null
+    private var _binding: FragmentMyScheduleBinding? = null
     private val binding
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
@@ -23,7 +24,7 @@ class EditProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentEditProfileBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentMyScheduleBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -33,7 +34,7 @@ class EditProfileFragment : Fragment() {
         requireActivity().apply {
             findViewById<Toolbar>(R.id.my_toolbar).apply {
                 menu.clear()
-                inflateMenu(R.menu.action_profile_edit)
+                inflateMenu(R.menu.action_schedule)
                 isVisible = true
             }
             findViewById<BottomNavigationView>(R.id.bottom_navigation).isVisible = false

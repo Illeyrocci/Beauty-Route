@@ -1,4 +1,4 @@
-package com.illeyrocci.beautyroute
+package com.illeyrocci.beautyroute.presentation.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.illeyrocci.beautyroute.databinding.FragmentSearchBinding
+import com.illeyrocci.beautyroute.R
+import com.illeyrocci.beautyroute.databinding.FragmentUserScheduleBinding
 
-class SearchFragment : Fragment() {
+class UserScheduleFragment : Fragment() {
 
-    private var _binding: FragmentSearchBinding? = null
+    private var _binding: FragmentUserScheduleBinding? = null
     private val binding
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
@@ -24,7 +24,7 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentUserScheduleBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -32,15 +32,12 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         requireActivity().apply {
-            findViewById<Toolbar>(R.id.my_toolbar).isVisible = false
-            findViewById<BottomNavigationView>(R.id.bottom_navigation).isVisible = true
-        }
-
-        val navController = findNavController()
-        binding.apply {
-            includeNearestAppointment.root.setOnClickListener {
-                navController.navigate(SearchFragmentDirections.searchToAppointment())
+            findViewById<Toolbar>(R.id.my_toolbar).apply {
+                menu.clear()
+                inflateMenu(R.menu.action_profile_edit)
+                isVisible = true
             }
+            findViewById<BottomNavigationView>(R.id.bottom_navigation).isVisible = false
         }
     }
 

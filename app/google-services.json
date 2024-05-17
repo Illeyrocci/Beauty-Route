@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "532135082905",
+    "project_id": "beauty-route-364ca",
+    "storage_bucket": "beauty-route-364ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532135082905:android:cd5161517ff4ebc6c2b108",
+        "android_client_info": {
+          "package_name": "com.illeyrocci.beautyroute"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9jv8yzjuWCOK6m83fl3kzxf6a6xBTn6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

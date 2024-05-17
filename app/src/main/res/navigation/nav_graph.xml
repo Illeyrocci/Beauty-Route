@@ -6,7 +6,7 @@
     app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.illeyrocci.beautyroute.AuthorizationFragment"
+        android:name="com.illeyrocci.beautyroute.presentation.fragment.AuthorizationFragment"
         android:label=""
         tools:layout="@layout/fragment_authorization">
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.illeyrocci.beautyroute.RegistrationFragment"
+        android:name="com.illeyrocci.beautyroute.presentation.fragment.RegistrationFragment"
         android:label=""
         tools:layout="@layout/fragment_registration">
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.illeyrocci.beautyroute.SearchFragment"
+        android:name="com.illeyrocci.beautyroute.presentation.fragment.SearchFragment"
         android:label=""
         tools:layout="@layout/fragment_search">
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/appointmentFragment"
-        android:name="com.illeyrocci.beautyroute.AppointmentFragment"
+        android:name="com.illeyrocci.beautyroute.presentation.fragment.AppointmentFragment"
         android:label=""
         tools:layout="@layout/fragment_appointment">
         <action
@@ -61,7 +61,7 @@
     </fragment>
     <fragment
         android:id="@+id/appointmentListFragment"
-        android:name="com.illeyrocci.beautyroute.AppointmentListFragment"
+        android:name="com.illeyrocci.beautyroute.presentation.fragment.AppointmentListFragment"
         android:label=""
         tools:layout="@layout/fragment_appointment_list">
         <action
@@ -76,12 +76,12 @@
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.illeyrocci.beautyroute.EditProfileFragment"
+        android:name="com.illeyrocci.beautyroute.presentation.fragment.EditProfileFragment"
         android:label=""
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/myProfileFragment"
-        android:name="com.illeyrocci.beautyroute.MyProfileFragment"
+        android:name="com.illeyrocci.beautyroute.presentation.fragment.MyProfileFragment"
         android:label=""
         tools:layout="@layout/fragment_my_profile">
         <action
@@ -99,7 +99,7 @@
     </fragment>
     <fragment
         android:id="@+id/myScheduleFragment"
-        android:name="com.illeyrocci.beautyroute.MyScheduleFragment"
+        android:name="com.illeyrocci.beautyroute.presentation.fragment.MyScheduleFragment"
         android:label=""
         tools:layout="@layout/fragment_my_schedule">
         <action
@@ -108,7 +108,7 @@
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
-        android:name="com.illeyrocci.beautyroute.UserProfileFragment"
+        android:name="com.illeyrocci.beautyroute.presentation.fragment.UserProfileFragment"
         android:label=""
         tools:layout="@layout/fragment_user_profile">
         <action
@@ -117,7 +117,7 @@
     </fragment>
     <fragment
         android:id="@+id/userScheduleFragment"
-        android:name="com.illeyrocci.beautyroute.UserScheduleFragment"
+        android:name="com.illeyrocci.beautyroute.presentation.fragment.UserScheduleFragment"
         android:label=""
         tools:layout="@layout/fragment_user_schedule">
         <action

@@ -1,4 +1,4 @@
-package com.illeyrocci.beautyroute
+package com.illeyrocci.beautyroute.presentation.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,10 +9,12 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.illeyrocci.beautyroute.databinding.FragmentAuthorizationBinding
+import com.illeyrocci.beautyroute.R
+import com.illeyrocci.beautyroute.databinding.FragmentRegistrationBinding
 
-class AuthorizationFragment : Fragment() {
-    private var _binding: FragmentAuthorizationBinding? = null
+class RegistrationFragment : Fragment() {
+
+    private var _binding: FragmentRegistrationBinding? = null
     private val binding
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
@@ -23,7 +25,7 @@ class AuthorizationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAuthorizationBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentRegistrationBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -31,18 +33,12 @@ class AuthorizationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         requireActivity().apply {
-            findViewById<Toolbar>(R.id.my_toolbar).isVisible = false
+            findViewById<Toolbar>(R.id.my_toolbar).isVisible = true
             findViewById<BottomNavigationView>(R.id.bottom_navigation).isVisible = false
         }
 
-        val navController = findNavController()
-        binding.apply {
-            signIn.setOnClickListener {
-                navController.navigate(AuthorizationFragmentDirections.loginToSearch())
-            }
-            viewSignUp.setOnClickListener {
-                navController.navigate(AuthorizationFragmentDirections.loginToRegistration())
-            }
+        binding.signUp.setOnClickListener {
+            findNavController().navigate(RegistrationFragmentDirections.registrationToSearch())
         }
     }
 

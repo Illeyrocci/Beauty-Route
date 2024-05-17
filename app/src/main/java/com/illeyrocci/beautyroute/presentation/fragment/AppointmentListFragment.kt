@@ -1,18 +1,19 @@
-package com.illeyrocci.beautyroute
+package com.illeyrocci.beautyroute.presentation.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.illeyrocci.beautyroute.databinding.FragmentMyProfileBinding
+import com.illeyrocci.beautyroute.R
+import com.illeyrocci.beautyroute.databinding.FragmentAppointmentListBinding
 
-class MyProfileFragment : Fragment() {
+class AppointmentListFragment : Fragment() {
 
-    private var _binding: FragmentMyProfileBinding? = null
+    private var _binding: FragmentAppointmentListBinding? = null
     private val binding
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
@@ -23,7 +24,7 @@ class MyProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMyProfileBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentAppointmentListBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -31,18 +32,8 @@ class MyProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         requireActivity().apply {
-            findViewById<android.widget.Toolbar>(R.id.my_toolbar).isVisible = false
+            findViewById<Toolbar>(R.id.my_toolbar).isVisible = false
             findViewById<BottomNavigationView>(R.id.bottom_navigation).isVisible = true
-        }
-
-        val navController = findNavController()
-        binding.apply {
-            viewEditProfile.setOnClickListener {
-                navController.navigate(MyProfileFragmentDirections.myProfileToEditProfile())
-            }
-            viewMySchedule.setOnClickListener {
-                navController.navigate(MyProfileFragmentDirections.myProfileToMySchedule())
-            }
         }
     }
 
