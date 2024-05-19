@@ -4,11 +4,7 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.illeyrocci.beautyroute.domain.model.Resource
-import com.illeyrocci.beautyroute.domain.model.ResourceException
-import com.illeyrocci.beautyroute.domain.usecase.CreateUserWithEmailAndPasswordUseCase
-import com.illeyrocci.beautyroute.domain.usecase.SendVerificationEmailUseCase
-import com.illeyrocci.beautyroute.domain.usecase.SignOutUseCase
+import com.illeyrocci.beautyroute.domain.usecase.CreateUserAndGetStatusUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,16 +13,14 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class RegistrationViewModel(
-    private val createUserWithEmailAndPasswordUseCase: CreateUserWithEmailAndPasswordUseCase,
-    private val sendVerificationEmailUseCase: SendVerificationEmailUseCase,
-    private val signOutUseCase: SignOutUseCase,
+    private val createUserAndGetStatusUseCase: CreateUserAndGetStatusUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     /**
      * Stream of immutable states representative of the UI.
      */
-    private val _state = MutableStateFlow(UiState())
-    val state: StateFlow<UiState>
+    private val _state = MutableStateFlow(RegistrationUiState())
+    val state: StateFlow<RegistrationUiState>
         get() = _state.asStateFlow()
 
     init {
@@ -35,10 +29,10 @@ class RegistrationViewModel(
         val initEmail: String = savedStateHandle[EMAIL] ?: DEFAULT
         val initPassword: String = savedStateHandle[PASSWORD] ?: DEFAULT
         val initAddress: String = savedStateHandle[ADDRESS] ?: DEFAULT
-        val initStatus: RegisterStatus =
-            savedStateHandle[REGISTER_STATUS] ?: RegisterStatus.DEFAULT
+        val initStatus: RegistrationStatus =
+            savedStateHandle[REGISTER_STATUS] ?: RegistrationStatus.DEFAULT
 
-        _state.value = UiState(
+        _state.value = RegistrationUiState(
             initName,
             initPhone,
             initEmail,
@@ -57,49 +51,19 @@ class RegistrationViewModel(
     ) {
         Log.d("TAGGG", "updateFormState call")
         _state.update {
-            UiState(name, phone, email, password, address, RegisterStatus.DEFAULT)
+            RegistrationUiState(name, phone, email, password, address, RegistrationStatus.DEFAULT)
         }
     }
 
-    fun signUp(
-        name: String,
-        phone: String,
-        email: String,
-        password: String,
-        address: String
-    ) {
+    fun signUp() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update {
-                it.copy(registerStatus = RegisterStatus.LOADING)
+                it.copy(registrationStatus = RegistrationStatus.LOADING)
             }
-            val signUpResource =
-                createUserWithEmailAndPasswordUseCase(email, password)
-            val status = if (signUpResource is Resource.Success) {
-                val sendVerificationEmailResource = sendVerificationEmailUseCase()
-                if (sendVerificationEmailResource is Resource.Success) {
-                    RegisterStatus.SUCCESS
-                } else {
-                    convertResourceExceptionToRegisterStatus(sendVerificationEmailResource.exception!!)
-                }
-            } else convertResourceExceptionToRegisterStatus(signUpResource.exception!!)
-            signOutUseCase()
-            _state.update {
-                it.copy(registerStatus = status)
-            }
-        }
-    }
 
-    private fun convertResourceExceptionToRegisterStatus(exception: ResourceException): RegisterStatus {
-        return when (exception) {
-            is ResourceException.EmailBadFormat -> RegisterStatus.EMAIL_BAD_FORMAT
-            is ResourceException.AuthUserCollision -> RegisterStatus.EMAIL_COLLISION
-            is ResourceException.AuthWeakPassword -> RegisterStatus.WEAK_PASSWORD
-            is ResourceException.Web -> RegisterStatus.POOR_WEB
-            is ResourceException.Network -> RegisterStatus.POOR_NETWORK
-            is ResourceException.ApiNotAvailable -> RegisterStatus.API_NOT_AVAILABLE
-            is ResourceException.TooManyRequests -> RegisterStatus.TOO_MANY_REQUESTS
-            is ResourceException.EmptyArguments -> RegisterStatus.EMPTY_INPUTS
-            else -> RegisterStatus.SOMETHING_WRONG
+            _state.update {
+                it.copy(registrationStatus = createUserAndGetStatusUseCase(it.email, it.password))
+            }
         }
     }
 
@@ -109,21 +73,21 @@ class RegistrationViewModel(
         savedStateHandle[EMAIL] = state.value.email
         savedStateHandle[PASSWORD] = state.value.password
         savedStateHandle[ADDRESS] = state.value.address
-        savedStateHandle[REGISTER_STATUS] = state.value.registerStatus
+        savedStateHandle[REGISTER_STATUS] = state.value.registrationStatus
         super.onCleared()
     }
 }
 
-data class UiState(
+data class RegistrationUiState(
     val name: String = DEFAULT,
     val phone: String = DEFAULT,
     val email: String = DEFAULT,
     val password: String = DEFAULT,
     val address: String = DEFAULT,
-    val registerStatus: RegisterStatus = RegisterStatus.DEFAULT
+    val registrationStatus: RegistrationStatus = RegistrationStatus.DEFAULT
 )
 
-enum class RegisterStatus {
+enum class RegistrationStatus {
     LOADING,
     SUCCESS,
     DEFAULT,

@@ -20,7 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.illeyrocci.beautyroute.R
 import com.illeyrocci.beautyroute.databinding.FragmentRegistrationBinding
 import com.illeyrocci.beautyroute.presentation.common.BaseTextWatcher
-import com.illeyrocci.beautyroute.presentation.viewmodel.RegisterStatus
+import com.illeyrocci.beautyroute.presentation.viewmodel.RegistrationStatus
 import com.illeyrocci.beautyroute.presentation.viewmodel.RegistrationViewModel
 import com.illeyrocci.beautyroute.presentation.viewmodel.RegistrationViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
@@ -55,6 +55,7 @@ class RegistrationFragment : Fragment() {
             findViewById<BottomNavigationView>(R.id.bottom_navigation).isVisible = false
         }
 
+        val navController = findNavController()
         with(binding) {
 
             val textWatcher = object : BaseTextWatcher() {
@@ -75,13 +76,7 @@ class RegistrationFragment : Fragment() {
             editSetCity.addTextChangedListener(textWatcher)
 
             signUp.setOnClickListener {
-                viewModel.signUp(
-                    editSetName.text.toString(),
-                    editSetPhone.text.toString(),
-                    editSetEmail.text.toString(),
-                    editSetPassword.text.toString(),
-                    editSetCity.text.toString()
-                )
+                viewModel.signUp()
             }
         }
 
@@ -89,39 +84,43 @@ class RegistrationFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
 
-                    @StringRes val statusMessage = when (state.registerStatus) {
-                        RegisterStatus.DEFAULT -> R.string.error
-                        RegisterStatus.EMAIL_BAD_FORMAT -> R.string.bad_email
-                        RegisterStatus.WEAK_PASSWORD -> R.string.weak_password
-                        RegisterStatus.SUCCESS -> R.string.user_created
-                        RegisterStatus.LOADING -> R.string.error
-                        RegisterStatus.EMAIL_COLLISION -> R.string.email_collision
-                        RegisterStatus.SOMETHING_WRONG -> R.string.error
-                        RegisterStatus.POOR_NETWORK -> R.string.error_network
-                        RegisterStatus.POOR_WEB -> R.string.error_web
-                        RegisterStatus.TOO_MANY_REQUESTS -> R.string.too_many_requests
-                        RegisterStatus.API_NOT_AVAILABLE -> R.string.api_not_available
-                        RegisterStatus.EMPTY_INPUTS -> R.string.empty_inputs
+                    @StringRes val statusMessage = when (state.registrationStatus) {
+                        RegistrationStatus.DEFAULT -> R.string.error
+                        RegistrationStatus.EMAIL_BAD_FORMAT -> R.string.bad_email
+                        RegistrationStatus.WEAK_PASSWORD -> R.string.weak_password
+                        RegistrationStatus.SUCCESS -> R.string.user_created
+                        RegistrationStatus.LOADING -> R.string.error
+                        RegistrationStatus.EMAIL_COLLISION -> R.string.email_collision
+                        RegistrationStatus.SOMETHING_WRONG -> R.string.error
+                        RegistrationStatus.POOR_NETWORK -> R.string.error_network
+                        RegistrationStatus.POOR_WEB -> R.string.error_web
+                        RegistrationStatus.TOO_MANY_REQUESTS -> R.string.too_many_requests
+                        RegistrationStatus.API_NOT_AVAILABLE -> R.string.api_not_available
+                        RegistrationStatus.EMPTY_INPUTS -> R.string.empty_inputs
                     }
 
                     binding.linearProgressBar.isVisible =
-                        state.registerStatus == RegisterStatus.LOADING
+                        state.registrationStatus == RegistrationStatus.LOADING
 
-                    val color = when (state.registerStatus) {
-                        RegisterStatus.SUCCESS -> Color.GREEN
-                        RegisterStatus.EMAIL_COLLISION -> Color.CYAN
+                    val color = when (state.registrationStatus) {
+                        RegistrationStatus.SUCCESS -> Color.GREEN
+                        RegistrationStatus.EMAIL_COLLISION -> Color.CYAN
                         else -> Color.MAGENTA
                     }
 
-                    if (state.registerStatus != RegisterStatus.LOADING && state.registerStatus != RegisterStatus.DEFAULT) {
+                    if (state.registrationStatus != RegistrationStatus.LOADING && state.registrationStatus != RegistrationStatus.DEFAULT) {
                         val snackbar =
                             Snackbar.make(binding.root, statusMessage, Snackbar.LENGTH_LONG)
                         snackbar.setTextColor(color)
                         snackbar.show()
                     }
 
-                    if (state.registerStatus == RegisterStatus.SUCCESS) {
-                        findNavController().popBackStack()
+                    if (state.registrationStatus == RegistrationStatus.SUCCESS) {
+                        navController.previousBackStackEntry?.savedStateHandle?.set(
+                            SAVED_STATE_CREDENTIALS_KEY,
+                            "${binding.editSetEmail.text} ${binding.editSetPassword.text}"
+                        )
+                        navController.popBackStack()
                     }
                 }
             }
@@ -131,5 +130,9 @@ class RegistrationFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val SAVED_STATE_CREDENTIALS_KEY = "saved state credentials key"
     }
 }

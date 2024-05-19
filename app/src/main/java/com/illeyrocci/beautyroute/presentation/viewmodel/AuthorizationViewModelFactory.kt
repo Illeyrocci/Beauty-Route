@@ -5,9 +5,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.illeyrocci.beautyroute.data.repository.AuthRepositoryImpl
-import com.illeyrocci.beautyroute.domain.usecase.CreateUserAndGetStatusUseCase
+import com.illeyrocci.beautyroute.domain.usecase.CheckIfAuthorizedAndGetStatusUseCase
+import com.illeyrocci.beautyroute.domain.usecase.SignInAndGetStatusUseCase
 
-class RegistrationViewModelFactory(
+class AuthorizationViewModelFactory (
     //TODO("INJECTION REPOS")
     owner: SavedStateRegistryOwner
 ) :
@@ -20,10 +21,11 @@ class RegistrationViewModelFactory(
 
         val authRepository = AuthRepositoryImpl()
 
-        if (modelClass.isAssignableFrom(RegistrationViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(AuthorizationViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return RegistrationViewModel(
-                CreateUserAndGetStatusUseCase(authRepository),
+            return AuthorizationViewModel(
+                SignInAndGetStatusUseCase(authRepository),
+                CheckIfAuthorizedAndGetStatusUseCase(authRepository),
                 handle
             ) as T
         }

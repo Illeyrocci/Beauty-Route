@@ -34,7 +34,7 @@ class AuthRepositoryImpl(
         } ?: throw FirebaseAuthInvalidUserException("currentUser is null", "sendVerificationEmail")
     }
 
-    override suspend fun checkIfAuthenticated(): Resource<Boolean> = doRequest {
+    override suspend fun checkIfAuthorized(): Resource<Boolean> = doRequest {
         Resource.Success(firebaseAuth.currentUser != null)
     }
 

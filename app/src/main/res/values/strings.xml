@@ -50,16 +50,21 @@
     <string name="service_name">Название услуги</string>
     <string name="add_service">Добавить услугу</string>
     <string name="hint_email">your@email.com</string>
-    <string name="bad_email">Проверьте формат адреса электронной почты</string>
-    <string name="weak_password">Слишком слабый пароль</string>
+    <string name="bad_email">Проверьте формат адреса электронной почты.</string>
+    <string name="weak_password">Слишком слабый пароль.</string>
     <string name="user_created">Аккаунт создан! На ваш адрес электронной почты выслано письмо с подтверждением!</string>
-    <string name="email_collision">Аккаунт с таким адресом электронной почты уже существует</string>
-    <string name="error">Ошибка</string>
-    <string name="error_network">Проверьте соединение с Интернетом</string>
-    <string name="error_web">Ошибка веб-клиента</string>
-    <string name="too_many_requests">Вы делаете запросы слишком часто</string>
-    <string name="api_not_available">Данный функционал не поддерживается на вашем устройстве. Возможно, у вас не установлен GooglePlay Service</string>
-    <string name="email">Адрес электронной почты</string>
-    <string name="empty_inputs">Заполните все необходимые поля</string>
+    <string name="email_collision">Аккаунт с таким адресом электронной почты уже существует.</string>
+    <string name="error">Ошибка.</string>
+    <string name="error_network">Проверьте соединение с Интернетом.</string>
+    <string name="error_web">Ошибка веб-клиента.</string>
+    <string name="too_many_requests">Вы делаете запросы слишком часто. Пожалуйста, повторите чуть позже.</string>
+    <string name="api_not_available">Данный функционал не поддерживается на вашем устройстве. Возможно, у вас не установлен GooglePlay Service.</string>
+    <string name="email">Адрес электронной почты.</string>
+    <string name="empty_inputs">Заполните все необходимые поля.</string>
+    <string name="wrong_password">Неверный пароль.</string>
+    <string name="user_not_found">Пользователя с таким адресом электронной почты не существует.</string>
+    <string name="email_sent">Письмо отправлено! Перейдите по ссылке, чтобы подтвердить свой адрес электронной почты!</string>
+    <string name="wrong_credentials">Неверные данные для входа.</string>
+    <string name="email_too_many_requests">Письмо выслано недавно. Пожалуйста, перейдите по ссылке в нём и немного подождите.</string>
 
 </resources>

@@ -33,7 +33,13 @@ abstract class BaseFirebaseAuthRepository {
                 }
             }
         } catch (e: FirebaseAuthInvalidUserException) {
-            Resource.Failure(ResourceException.Unauthenticated(e))
+            when (e.errorCode) {
+                "ERROR_USER_NOT_FOUND" -> Resource.Failure(ResourceException.UserNotFound(e))
+                else -> {
+                    Log.d("TAGGG", "${e}, ${e.message}")
+                    Resource.Failure(ResourceException.Unauthenticated(e))
+                }
+            }
         } catch (e: FirebaseTooManyRequestsException) {
             Resource.Failure(ResourceException.TooManyRequests(e))
         } catch (e: FirebaseApiNotAvailableException) {
@@ -41,13 +47,20 @@ abstract class BaseFirebaseAuthRepository {
         } catch (e: FirebaseAuthInvalidCredentialsException) {
             when (e.errorCode) {
                 "ERROR_USER_NOT_FOUND" -> Resource.Failure(ResourceException.UserNotFound(e))
-                "ERROR_MISSING_EMAIL" -> Resource.Failure(ResourceException.EmailAddressRequired(e))
                 "ERROR_WRONG_PASSWORD" -> Resource.Failure(ResourceException.WrongPassword(e))
                 "ERROR_WEAK_PASSWORD" -> Resource.Failure(ResourceException.AuthWeakPassword(e))
                 "ERROR_INVALID_EMAIL" -> Resource.Failure(ResourceException.EmailBadFormat(e))
+                "ERROR_INVALID_CREDENTIAL" -> when (e.message) {
+                    "The supplied auth credential is incorrect, malformed or has expired." -> Resource.Failure(
+                        ResourceException.WrongCredentials(e)
+                    )
+
+                    else -> Resource.Failure(ResourceException.Other(e))
+                }
+
                 else -> {
                     Log.d("TAGGG", "${e}, ${e.message}")
-                    Resource.Failure(ResourceException.OtherInvalidCredentials(e))
+                    Resource.Failure(ResourceException.Other(e))
                 }
             }
         } catch (e: java.lang.IllegalArgumentException) {

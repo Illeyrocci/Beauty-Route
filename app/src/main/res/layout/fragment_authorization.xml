@@ -4,7 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/white_back">
+    >
+
+    <ProgressBar
+        android:id="@+id/linear_progress_bar2"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/orange"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/title_login"
@@ -13,19 +24,34 @@
         android:text="@string/log_in"
         android:textSize="34sp" />
 
+    <!--    <EditText
+            android:id="@+id/edit_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints="phone"
+            android:background="@drawable/rounded_16_rectangle"
+            android:backgroundTint="@color/beige"
+            android:ems="10"
+            android:hint="@string/phone_number"
+            android:inputType="phone"
+            android:lines="1"
+            android:maxLines="1"
+            android:minWidth="260dp"
+            android:padding="16dp" />-->
+
     <EditText
-        android:id="@+id/edit_phone"
+        android:id="@+id/edit_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autofillHints="phone"
         android:background="@drawable/rounded_16_rectangle"
         android:backgroundTint="@color/beige"
         android:ems="10"
-        android:hint="@string/phone_number"
-        android:inputType="phone"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
         android:lines="1"
         android:maxLines="1"
-        android:minWidth="250dp"
+        android:minWidth="260dp"
         android:padding="16dp" />
 
     <EditText
@@ -40,7 +66,7 @@
         android:inputType="textPassword"
         android:lines="1"
         android:maxLines="1"
-        android:minWidth="250dp"
+        android:minWidth="260dp"
         android:padding="16dp" />
 
 
@@ -93,7 +119,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:constraint_referenced_ids="title_login,edit_phone,edit_password,sign_in"
+        app:constraint_referenced_ids="title_login,edit_email,edit_password,sign_in"
         app:flow_horizontalAlign="center"
         app:flow_verticalAlign="center"
         app:flow_verticalGap="24dp"
@@ -101,5 +127,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/linear_progress_bar2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

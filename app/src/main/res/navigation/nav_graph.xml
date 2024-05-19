@@ -9,6 +9,12 @@
         android:name="com.illeyrocci.beautyroute.presentation.fragment.AuthorizationFragment"
         android:label=""
         tools:layout="@layout/fragment_authorization">
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
         <action
             android:id="@+id/login_to_registration"
             app:destination="@id/registrationFragment" />
@@ -23,11 +29,10 @@
         android:name="com.illeyrocci.beautyroute.presentation.fragment.RegistrationFragment"
         android:label=""
         tools:layout="@layout/fragment_registration">
+
         <action
-            android:id="@+id/registration_to_search"
-            app:destination="@id/searchFragment"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
+            android:id="@+id/registration_to_login"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

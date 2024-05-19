@@ -10,7 +10,7 @@ interface AuthRepository {
 
     suspend fun sendVerificationEmail(): Resource<Unit>
 
-    suspend fun checkIfAuthenticated(): Resource<Boolean>
+    suspend fun checkIfAuthorized(): Resource<Boolean>
 
     suspend fun signInWithEmailAndPassword(email: String, password: String): Resource<Unit>
 
