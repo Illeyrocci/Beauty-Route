@@ -1,4 +1,7 @@
 package com.illeyrocci.beautyroute.domain.usecase
 
-class SendVerificationEmailUseCase {
+import com.illeyrocci.beautyroute.domain.repository.AuthRepository
+
+class SendVerificationEmailUseCase(private val authRepository: AuthRepository) {
+    suspend operator fun invoke() = authRepository.sendVerificationEmail()
 }

@@ -1,8 +1,8 @@
 package com.illeyrocci.beautyroute.domain.usecase
 
+import com.illeyrocci.beautyroute.domain.repository.AuthRepository
 
-class CreateUserWithEmailAndPasswordUseCase {
-    // create
-    // if exception is FirebaseAuthUserCollisionException then notify
-    // else if its ok then
+class CreateUserWithEmailAndPasswordUseCase(private val authRepository: AuthRepository) {
+    suspend operator fun invoke(email: String, password: String) =
+        authRepository.createUserWithEmailAndPassword(email, password)
 }

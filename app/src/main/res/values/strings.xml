@@ -22,7 +22,7 @@
     <string name="phone_number">Номер телефона</string>
     <string name="password">Пароль</string>
     <string name="authorize">Авторизироваться</string>
-    <string name="register">Зарегистрироваться</string>
+    <string name="create_account">Создать аккаунт</string>
     <string name="manage_profile">Управление профилем</string>
     <string name="schedule">График работы</string>
     <string name="my_services">Мои услуги</string>
@@ -50,5 +50,16 @@
     <string name="service_name">Название услуги</string>
     <string name="add_service">Добавить услугу</string>
     <string name="hint_email">your@email.com</string>
+    <string name="bad_email">Проверьте формат адреса электронной почты</string>
+    <string name="weak_password">Слишком слабый пароль</string>
+    <string name="user_created">Аккаунт создан! На ваш адрес электронной почты выслано письмо с подтверждением!</string>
+    <string name="email_collision">Аккаунт с таким адресом электронной почты уже существует</string>
+    <string name="error">Ошибка</string>
+    <string name="error_network">Проверьте соединение с Интернетом</string>
+    <string name="error_web">Ошибка веб-клиента</string>
+    <string name="too_many_requests">Вы делаете запросы слишком часто</string>
+    <string name="api_not_available">Данный функционал не поддерживается на вашем устройстве. Возможно, у вас не установлен GooglePlay Service</string>
     <string name="email">Адрес электронной почты</string>
+    <string name="empty_inputs">Заполните все необходимые поля</string>
+
 </resources>

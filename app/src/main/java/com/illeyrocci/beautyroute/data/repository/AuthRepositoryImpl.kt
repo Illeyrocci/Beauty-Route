@@ -2,10 +2,9 @@ package com.illeyrocci.beautyroute.data.repository
 
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.auth
 import com.illeyrocci.beautyroute.domain.model.Resource
-import com.illeyrocci.beautyroute.domain.model.ResourceException
 import com.illeyrocci.beautyroute.domain.repository.AuthRepository
 import kotlinx.coroutines.tasks.await
 
@@ -25,20 +24,14 @@ class AuthRepositoryImpl(
     override suspend fun checkEmailVerification(): Resource<Boolean> = doRequest {
         firebaseAuth.currentUser?.let {
             Resource.Success(it.isEmailVerified)
-        } ?: throw FirebaseAuthException(
-            ResourceException.UNAUTHENTICATEDCODE,
-            "can't check if email is verified due to unauthenticated"
-        )
+        } ?: throw FirebaseAuthInvalidUserException("currentUser is null", "checkEmailVerification")
     }
 
     override suspend fun sendVerificationEmail(): Resource<Unit> = doRequest {
         firebaseAuth.currentUser?.let {
             it.sendEmailVerification().await()
             Resource.Success(Unit)
-        } ?: throw FirebaseAuthException(
-            ResourceException.UNAUTHENTICATEDCODE,
-            "can't send a confirmation email due to unauthenticated"
-        )
+        } ?: throw FirebaseAuthInvalidUserException("currentUser is null", "sendVerificationEmail")
     }
 
     override suspend fun checkIfAuthenticated(): Resource<Boolean> = doRequest {
