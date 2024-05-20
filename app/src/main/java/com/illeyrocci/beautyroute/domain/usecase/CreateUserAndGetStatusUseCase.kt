@@ -4,26 +4,59 @@ import android.util.Log
 import com.illeyrocci.beautyroute.domain.model.Resource
 import com.illeyrocci.beautyroute.domain.model.ResourceException
 import com.illeyrocci.beautyroute.domain.repository.AuthRepository
+import com.illeyrocci.beautyroute.domain.repository.UserRepository
 import com.illeyrocci.beautyroute.presentation.viewmodel.RegistrationStatus
 
 class CreateUserAndGetStatusUseCase(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository
 ) {
-    suspend operator fun invoke(email: String, password: String): RegistrationStatus {
-        val signUpResource =
-            authRepository.createUserWithEmailAndPassword(email, password)
+    suspend operator fun invoke(
+        name: String,
+        phone: String,
+        email: String,
+        password: String,
+        address: String
+    ): RegistrationStatus {
+        val signUpResource = authRepository.createUserWithEmailAndPassword(email, password)
+
+        val saveUserResource = userRepository.addUserToDB(name, phone, address)
+
+        if (saveUserResource is Resource.Failure) return convertResourceExceptionToRegisterStatus(
+            saveUserResource.exception!!
+        )
+
         return if (signUpResource is Resource.Success) {
+            Log.d("TAGGG", "signedUp, ${authRepository.checkIfAuthorized().data!!}")
             val sendVerificationEmailResource = authRepository.sendVerificationEmail()
             if (sendVerificationEmailResource is Resource.Success) {
+                authRepository.signOut()
                 RegistrationStatus.SUCCESS
             } else {
-                convertResourceExceptionToRegisterStatus(sendVerificationEmailResource.exception!!)
+                try {
+                    if (sendVerificationEmailResource.exception is ResourceException.Other) {
+                        userRepository.deleteUserFromDB(authRepository.getUserUID().data!!)
+                        authRepository.deleteUser()
+                    }
+                    convertResourceExceptionToRegisterStatus(sendVerificationEmailResource.exception!!)
+                } catch (e: Exception) {
+                    Log.d("TAGGG", "SEND_EM_BRUH$$")
+                    RegistrationStatus.SOMETHING_WRONG
+                }
             }
         } else {
-            convertResourceExceptionToRegisterStatus(signUpResource.exception!!)
-        }.also {
-            authRepository.signOut()
-            Log.d("TAGGG", "SIGNED OUT")
+            try {
+                if (signUpResource.exception is ResourceException.Other) {
+                    userRepository.deleteUserFromDB(authRepository.getUserUID().data!!)
+                    authRepository.deleteUser()
+                }
+                convertResourceExceptionToRegisterStatus(signUpResource.exception!!)
+
+            } catch (e: Exception) {
+                Log.d("TAGGG", "SEND_EM_BRUH")
+
+                RegistrationStatus.SOMETHING_WRONG
+            }
         }
     }
 

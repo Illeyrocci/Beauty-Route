@@ -11,31 +11,39 @@ import kotlinx.coroutines.tasks.await
 class AuthRepositoryImpl(
     //TODO("INJECTION FIREBASE AUTH. VAL")
     private var firebaseAuth: FirebaseAuth = Firebase.auth
-) : BaseFirebaseAuthRepository(), AuthRepository {
+) : BaseFirebaseRepository(), AuthRepository {
 
     override suspend fun createUserWithEmailAndPassword(
         email: String,
         password: String
     ): Resource<Unit> = doRequest {
         firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-        Resource.Success(Unit)
     }
 
     override suspend fun checkEmailVerification(): Resource<Boolean> = doRequest {
-        firebaseAuth.currentUser?.let {
-            Resource.Success(it.isEmailVerified)
-        } ?: throw FirebaseAuthInvalidUserException("currentUser is null", "checkEmailVerification")
+        if (firebaseAuth.currentUser == null) {
+            throw FirebaseAuthInvalidUserException(
+                "currentUser is null",
+                "checkEmailVerification"
+            )
+        } else {
+            firebaseAuth.currentUser!!.isEmailVerified
+        }
     }
 
     override suspend fun sendVerificationEmail(): Resource<Unit> = doRequest {
-        firebaseAuth.currentUser?.let {
-            it.sendEmailVerification().await()
-            Resource.Success(Unit)
-        } ?: throw FirebaseAuthInvalidUserException("currentUser is null", "sendVerificationEmail")
+        if (firebaseAuth.currentUser == null) {
+            throw FirebaseAuthInvalidUserException(
+                "currentUser is null",
+                "sendVerificationEmail"
+            )
+        } else {
+            firebaseAuth.currentUser!!.sendEmailVerification().await()
+        }
     }
 
     override suspend fun checkIfAuthorized(): Resource<Boolean> = doRequest {
-        Resource.Success(firebaseAuth.currentUser != null)
+        firebaseAuth.currentUser != null
     }
 
     override suspend fun signInWithEmailAndPassword(
@@ -43,15 +51,28 @@ class AuthRepositoryImpl(
         password: String
     ): Resource<Unit> = doRequest {
         firebaseAuth.signInWithEmailAndPassword(email, password).await()
-        Resource.Success(Unit)
     }
 
     override suspend fun sendPasswordResetEmail(email: String): Resource<Unit> = doRequest {
         firebaseAuth.sendPasswordResetEmail(email).await()
-        Resource.Success(Unit)
     }
 
     override suspend fun signOut(): Resource<Unit> = doRequest {
-        Resource.Success(firebaseAuth.signOut())
+        firebaseAuth.signOut()
+    }
+
+    override suspend fun getUserUID(): Resource<String> = doRequest {
+        firebaseAuth.currentUser?.uid ?: throw FirebaseAuthInvalidUserException(
+            "currentUser is null",
+            "getUserUID"
+        )
+    }
+
+    override suspend fun deleteUser(): Resource<Unit> = doRequest {
+        firebaseAuth.currentUser?.delete()?.await()
+            ?: throw FirebaseAuthInvalidUserException(
+                "currentUser is null",
+                "deleteUser"
+            )
     }
 }

@@ -11,12 +11,11 @@ import com.google.firebase.auth.FirebaseAuthWebException
 import com.illeyrocci.beautyroute.domain.model.Resource
 import com.illeyrocci.beautyroute.domain.model.ResourceException
 
-abstract class BaseFirebaseAuthRepository {
+abstract class BaseFirebaseRepository {
 
-    //dedicated to reduce code duplication
-    suspend fun <T> doRequest(request: suspend () -> Resource.Success<T>): Resource<T> {
+    suspend fun <T> doRequest(request: suspend () -> T): Resource<T> {
         return try {
-            request.invoke()
+            Resource.Success(request.invoke())
         } catch (e: FirebaseNetworkException) {
             Resource.Failure(ResourceException.Network(e))
         } catch (e: FirebaseAuthWebException) {

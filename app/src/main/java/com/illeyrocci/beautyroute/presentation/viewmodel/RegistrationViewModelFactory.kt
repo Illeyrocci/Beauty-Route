@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.illeyrocci.beautyroute.data.repository.AuthRepositoryImpl
+import com.illeyrocci.beautyroute.data.repository.UserRepositoryImpl
 import com.illeyrocci.beautyroute.domain.usecase.CreateUserAndGetStatusUseCase
 
 class RegistrationViewModelFactory(
@@ -19,11 +20,12 @@ class RegistrationViewModelFactory(
     ): T {
 
         val authRepository = AuthRepositoryImpl()
+        val userRepository = UserRepositoryImpl()
 
         if (modelClass.isAssignableFrom(RegistrationViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return RegistrationViewModel(
-                CreateUserAndGetStatusUseCase(authRepository),
+                CreateUserAndGetStatusUseCase(authRepository, userRepository),
                 handle
             ) as T
         }

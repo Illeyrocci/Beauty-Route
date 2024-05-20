@@ -62,7 +62,7 @@ class RegistrationViewModel(
             }
 
             _state.update {
-                it.copy(registrationStatus = createUserAndGetStatusUseCase(it.email, it.password))
+                it.copy(registrationStatus = createUserAndGetStatusUseCase(it.name, it.phone, it.email, it.password, it.address))
             }
         }
     }
