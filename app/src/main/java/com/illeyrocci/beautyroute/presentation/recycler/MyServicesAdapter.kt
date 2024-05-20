@@ -11,7 +11,11 @@ import com.illeyrocci.beautyroute.R
 import com.illeyrocci.beautyroute.databinding.ItemMyServiceListBinding
 import com.illeyrocci.beautyroute.domain.model.Service
 
-class MyServicesAdapter(private val context: Context) :
+class MyServicesAdapter(
+    private val context: Context,
+    private val onTextChanged: (Int, String, String, String, String) -> Unit,
+    private val onAddImageClick: (pos: Int) -> Unit
+) :
     RecyclerView.Adapter<MyServicesAdapter.MyServiceViewHolder>() {
 
     private var data: ArrayList<Service> = arrayListOf()
@@ -20,28 +24,41 @@ class MyServicesAdapter(private val context: Context) :
         private val binding: ItemMyServiceListBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Service, context: Context) {
+        fun bind(
+            item: Service,
+            context: Context,
+            onTextChanged: (Int, String, String, String, String) -> Unit,
+            onAddImageClick: (pos: Int) -> Unit
+        ) {
             val adapter = ServicePhotosAdapter(context)
 
             binding.apply {
                 includeExpandedService.imageList.adapter = adapter
 
+                includeExpandedService.remember.setOnClickListener {
+                    onTextChanged(
+                        adapterPosition,
+                        nameUserServicesList.text.toString(),
+                        includeExpandedService.editDuration.text.toString(),
+                        includeExpandedService.editCost.text.toString(),
+                        includeExpandedService.editDescriptionServiceList.text.toString()
+                    )
+                }
+
                 item.photos?.let { adapter.update(it) }
 
                 nameUserServicesList.text = Editable.Factory().newEditable(item.name)
-                includeExpandedService.editDuration.text =
+                if (item.duration != 0) includeExpandedService.editDuration.text =
                     Editable.Factory().newEditable(item.duration.toString())
-                includeExpandedService.editCost.text =
+                if (item.price != null) includeExpandedService.editCost.text =
                     Editable.Factory().newEditable(item.price.toString())
-                includeExpandedService.editDescriptionServiceList.text =
+                if (item.description != null) includeExpandedService.editDescriptionServiceList.text =
                     Editable.Factory().newEditable(item.description.toString())
                 iconDown.setOnClickListener {
                     includeExpandedService.root.isVisible = !includeExpandedService.root.isVisible
                     iconDown.setImageResource(if (includeExpandedService.root.isVisible) R.drawable.ic_up else R.drawable.ic_down)
                 }
-                includeExpandedService.addImage.setOnClickListener {
-
-                }
+                includeExpandedService.addImage.setOnClickListener { onAddImageClick(adapterPosition) }
             }
         }
     }
@@ -54,7 +71,7 @@ class MyServicesAdapter(private val context: Context) :
 
     override fun onBindViewHolder(holder: MyServiceViewHolder, position: Int) {
         val item = data[position]
-        holder.bind(item, context)
+        holder.bind(item, context, onTextChanged, onAddImageClick)
     }
 
     override fun getItemCount(): Int = data.size

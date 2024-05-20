@@ -1,9 +1,12 @@
 package com.illeyrocci.beautyroute.presentation.fragment
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,14 +33,35 @@ class MyProfileFragment : Fragment() {
 
     private val viewModel: MyProfileViewModel by viewModels { MyProfileViewModelFactory() }
 
+    private val openDocumentLauncher = registerForActivityResult(
+        object : ActivityResultContracts.OpenDocument() {
+            override fun createIntent(context: Context, input: Array<String>): Intent {
+                val intent = super.createIntent(context, input)
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                return intent
+            }
+        }
+    ) {
+        it?.let { viewModel.addNewImage(it, position) }
+    }
+
     private lateinit var adapter: MyServicesAdapter
+
+    private var position = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        adapter = MyServicesAdapter(requireActivity())
+        val lambda = { pos: Int, s1: String, s2: String, s3: String, s4: String ->
+            viewModel.updateServiceFormState(pos, s1, s2, s3, s4)
+        }
+
+        adapter = MyServicesAdapter(requireActivity(), lambda) { pos ->
+            position = pos
+            openDocumentLauncher.launch(arrayOf("image/*"))
+        }
         _binding = FragmentMyProfileBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -52,6 +76,7 @@ class MyProfileFragment : Fragment() {
 
         val navController = findNavController()
         binding.apply {
+
             userServicesList.adapter = adapter
             viewEditProfile.setOnClickListener {
                 navController.navigate(MyProfileFragmentDirections.myProfileToEditProfile())
@@ -62,6 +87,7 @@ class MyProfileFragment : Fragment() {
             viewAddService.setOnClickListener {
                 viewModel.addNewService()
             }
+
         }
 
         lifecycleScope.launch {

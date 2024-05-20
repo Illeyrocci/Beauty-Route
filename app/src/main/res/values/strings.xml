@@ -66,5 +66,6 @@
     <string name="email_sent">Письмо отправлено! Перейдите по ссылке, чтобы подтвердить свой адрес электронной почты!</string>
     <string name="wrong_credentials">Неверные данные для входа.</string>
     <string name="email_too_many_requests">Письмо выслано недавно. Пожалуйста, перейдите по ссылке в нём и немного подождите.</string>
+    <string name="remember">Запомнить</string>
 
 </resources>

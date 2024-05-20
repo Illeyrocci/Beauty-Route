@@ -1,11 +1,14 @@
 package com.illeyrocci.beautyroute.presentation.viewmodel
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.illeyrocci.beautyroute.domain.model.Service
+import com.illeyrocci.beautyroute.domain.usecase.AddServiceImageUseCase
 import com.illeyrocci.beautyroute.domain.usecase.AddServiceUseCase
 import com.illeyrocci.beautyroute.domain.usecase.GetMyDataUseCase
+import com.illeyrocci.beautyroute.domain.usecase.UpdateServiceDataUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +19,9 @@ import kotlinx.coroutines.launch
 
 class MyProfileViewModel(
     private val getMyDataUseCase: GetMyDataUseCase,
-    private val addServiceUseCase: AddServiceUseCase
+    private val addServiceUseCase: AddServiceUseCase,
+    private val addServiceImageUseCase: AddServiceImageUseCase,
+    private val updateServiceDataUseCase: UpdateServiceDataUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MyProfileUiState())
@@ -40,9 +45,26 @@ class MyProfileViewModel(
         }
     }
 
-
     fun addNewService() {
         viewModelScope.launch(Dispatchers.IO) { addServiceUseCase() }
+    }
+
+    fun addNewImage(uri: Uri, position: Int) {
+        viewModelScope.launch {
+            addServiceImageUseCase(position, uri)
+        }
+    }
+
+    fun updateServiceFormState(
+        position: Int,
+        name: String,
+        duration: String,
+        cost: String,
+        description: String
+    ) {
+        viewModelScope.launch {
+            updateServiceDataUseCase(position, name, duration, cost, description)
+        }
     }
 }
 

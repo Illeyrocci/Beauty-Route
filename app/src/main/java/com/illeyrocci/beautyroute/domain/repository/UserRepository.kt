@@ -18,4 +18,17 @@ interface UserRepository {
     suspend fun addService(uid: String): Resource<Unit>
 
     fun getUserData(uid: String): Flow<User>
+
+    suspend fun getUserDataSnapshot(uid: String): User
+
+    suspend fun updateServicePhotos(position: Int, urls: ArrayList<String>, uid: String)
+
+    suspend fun updateServiceData(
+        position: Int,
+        name: String,
+        duration: String,
+        cost: String,
+        description: String,
+        uid: String
+    )
 }

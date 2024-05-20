@@ -8,7 +8,7 @@ class ServiceListComparator(
     private val newList: List<Service>
 ) : DiffUtil.Callback() {
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition] == newList[newItemPosition]
+        oldList[oldItemPosition].uid == newList[newItemPosition].uid
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
         oldList[oldItemPosition] == newList[newItemPosition]
