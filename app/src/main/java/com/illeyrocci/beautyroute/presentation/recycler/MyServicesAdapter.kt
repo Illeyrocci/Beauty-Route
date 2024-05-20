@@ -1,5 +1,6 @@
 package com.illeyrocci.beautyroute.presentation.recycler
 
+import android.content.Context
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,15 +11,23 @@ import com.illeyrocci.beautyroute.R
 import com.illeyrocci.beautyroute.databinding.ItemMyServiceListBinding
 import com.illeyrocci.beautyroute.domain.model.Service
 
-class MyServicesAdapter : RecyclerView.Adapter<MyServicesAdapter.MyServiceViewHolder>() {
+class MyServicesAdapter(private val context: Context) :
+    RecyclerView.Adapter<MyServicesAdapter.MyServiceViewHolder>() {
 
     private var data: ArrayList<Service> = arrayListOf()
 
     class MyServiceViewHolder(
         private val binding: ItemMyServiceListBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Service) {
+
+        fun bind(item: Service, context: Context) {
+            val adapter = ServicePhotosAdapter(context)
+
             binding.apply {
+                includeExpandedService.imageList.adapter = adapter
+
+                item.photos?.let { adapter.update(it) }
+
                 nameUserServicesList.text = Editable.Factory().newEditable(item.name)
                 includeExpandedService.editDuration.text =
                     Editable.Factory().newEditable(item.duration.toString())
@@ -29,6 +38,9 @@ class MyServicesAdapter : RecyclerView.Adapter<MyServicesAdapter.MyServiceViewHo
                 iconDown.setOnClickListener {
                     includeExpandedService.root.isVisible = !includeExpandedService.root.isVisible
                     iconDown.setImageResource(if (includeExpandedService.root.isVisible) R.drawable.ic_up else R.drawable.ic_down)
+                }
+                includeExpandedService.addImage.setOnClickListener {
+
                 }
             }
         }
@@ -42,7 +54,7 @@ class MyServicesAdapter : RecyclerView.Adapter<MyServicesAdapter.MyServiceViewHo
 
     override fun onBindViewHolder(holder: MyServiceViewHolder, position: Int) {
         val item = data[position]
-        holder.bind(item)
+        holder.bind(item, context)
     }
 
     override fun getItemCount(): Int = data.size

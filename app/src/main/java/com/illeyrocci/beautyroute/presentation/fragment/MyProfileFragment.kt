@@ -30,13 +30,14 @@ class MyProfileFragment : Fragment() {
 
     private val viewModel: MyProfileViewModel by viewModels { MyProfileViewModelFactory() }
 
-    private val adapter = MyServicesAdapter()
+    private lateinit var adapter: MyServicesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        adapter = MyServicesAdapter(requireActivity())
         _binding = FragmentMyProfileBinding.inflate(layoutInflater, container, false)
         return binding.root
     }

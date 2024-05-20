@@ -42,6 +42,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.glide)
+    annotationProcessor(libs.github.compiler)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
