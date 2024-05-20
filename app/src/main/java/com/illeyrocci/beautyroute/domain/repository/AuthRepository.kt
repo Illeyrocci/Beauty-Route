@@ -18,7 +18,7 @@ interface AuthRepository {
 
     suspend fun signOut(): Resource<Unit>
 
-    suspend fun getUserUID(): Resource<String>
+    suspend fun getMyUID(): Resource<String>
 
     suspend fun deleteUser(): Resource<Unit>
 }

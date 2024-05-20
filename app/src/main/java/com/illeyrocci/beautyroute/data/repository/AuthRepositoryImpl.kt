@@ -61,7 +61,7 @@ class AuthRepositoryImpl(
         firebaseAuth.signOut()
     }
 
-    override suspend fun getUserUID(): Resource<String> = doRequest {
+    override suspend fun getMyUID(): Resource<String> = doRequest {
         firebaseAuth.currentUser?.uid ?: throw FirebaseAuthInvalidUserException(
             "currentUser is null",
             "getUserUID"

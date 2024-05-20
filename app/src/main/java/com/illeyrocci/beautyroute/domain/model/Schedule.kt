@@ -1,10 +1,10 @@
 package com.illeyrocci.beautyroute.domain.model
 
 data class Schedule(
-    val days: ArrayList<Day>
+    val days: ArrayList<Day> = arrayListOf()
 ) {
     data class Day(
-        val dayStartUnixTime: Long,
+        val dayStartUnixTime: Long = 0,
         val sections: Array<Appointment?> = Array(96) { null }
     ) {
         override fun equals(other: Any?): Boolean {

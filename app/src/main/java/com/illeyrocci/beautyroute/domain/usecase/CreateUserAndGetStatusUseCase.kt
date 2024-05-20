@@ -20,7 +20,7 @@ class CreateUserAndGetStatusUseCase(
     ): RegistrationStatus {
         val signUpResource = authRepository.createUserWithEmailAndPassword(email, password)
 
-        val saveUserResource = userRepository.addUserToDB(name, phone, address)
+        val saveUserResource = userRepository.addUserToDB(authRepository.getMyUID().data!!, name, phone, address)
 
         if (saveUserResource is Resource.Failure) return convertResourceExceptionToRegisterStatus(
             saveUserResource.exception!!
@@ -35,7 +35,7 @@ class CreateUserAndGetStatusUseCase(
             } else {
                 try {
                     if (sendVerificationEmailResource.exception is ResourceException.Other) {
-                        userRepository.deleteUserFromDB(authRepository.getUserUID().data!!)
+                        userRepository.deleteUserFromDB(authRepository.getMyUID().data!!)
                         authRepository.deleteUser()
                     }
                     convertResourceExceptionToRegisterStatus(sendVerificationEmailResource.exception!!)
@@ -47,7 +47,7 @@ class CreateUserAndGetStatusUseCase(
         } else {
             try {
                 if (signUpResource.exception is ResourceException.Other) {
-                    userRepository.deleteUserFromDB(authRepository.getUserUID().data!!)
+                    userRepository.deleteUserFromDB(authRepository.getMyUID().data!!)
                     authRepository.deleteUser()
                 }
                 convertResourceExceptionToRegisterStatus(signUpResource.exception!!)
