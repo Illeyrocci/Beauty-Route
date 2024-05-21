@@ -103,4 +103,24 @@ class UserRepositoryImpl(
         Log.d("TAGGG", oldArr.toString())
 
     }
+
+    override suspend fun changeUserData(
+        uid: String,
+        name: String,
+        phone: String,
+        address: String,
+        description: String
+    ): Resource<Unit> = doRequest {
+        db.collection("users").document(uid)
+            .update(
+                mapOf(
+                    "name" to name,
+                    "phone" to phone,
+                    "address" to address,
+                    "description" to description
+                )
+            )
+
+
+    }
 }

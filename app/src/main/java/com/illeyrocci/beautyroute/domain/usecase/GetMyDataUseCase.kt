@@ -6,7 +6,5 @@ class GetMyDataUseCase(
     private val authRepository: AuthRepository,
     private val getUserDataUseCase: GetUserDataUseCase
 ) {
-    suspend operator fun invoke() =
-        getUserDataUseCase(authRepository.getMyUID().data!!)
-
+    suspend operator fun invoke() = getUserDataUseCase(authRepository.getMyUID().data!!)
 }

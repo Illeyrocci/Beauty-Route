@@ -10,7 +10,7 @@ class ServiceGalleryComparator(
         oldList[oldItemPosition] == newList[newItemPosition]
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList == newList
+        oldList[oldItemPosition] == newList[newItemPosition]
 
     override fun getOldListSize() =
         oldList.size

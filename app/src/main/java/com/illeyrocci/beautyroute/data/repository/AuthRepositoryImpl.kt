@@ -68,6 +68,13 @@ class AuthRepositoryImpl(
         )
     }
 
+    override suspend fun getEmail(): Resource<String> = doRequest {
+        firebaseAuth.currentUser?.email ?: throw FirebaseAuthInvalidUserException(
+            "currentUser is null",
+            "getEmail"
+        )
+    }
+
     override suspend fun deleteUser(): Resource<Unit> = doRequest {
         firebaseAuth.currentUser?.delete()?.await()
             ?: throw FirebaseAuthInvalidUserException(
@@ -75,4 +82,25 @@ class AuthRepositoryImpl(
                 "deleteUser"
             )
     }
+
+    override suspend fun changeCredentials(email: String, password: String): Resource<Unit> =
+        doRequest {
+            if (email != firebaseAuth.currentUser?.email) firebaseAuth.currentUser?.verifyBeforeUpdateEmail(
+                email
+            )?.await()
+                ?: throw FirebaseAuthInvalidUserException(
+                    "currentUser is null",
+                    "changeCred1"
+                )
+
+            if (firebaseAuth.currentUser == null) {
+                firebaseAuth.currentUser!!.updatePassword(password).await()
+            } else {
+                throw FirebaseAuthInvalidUserException(
+                    "currentUser is null",
+                    "changeCred2"
+                )
+            }
+
+        }
 }

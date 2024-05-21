@@ -41,7 +41,7 @@ class MyServicesAdapter(
                         nameUserServicesList.text.toString(),
                         includeExpandedService.editDuration.text.toString(),
                         includeExpandedService.editCost.text.toString(),
-                        includeExpandedService.editDescriptionServiceList.text.toString()
+                        includeExpandedService.editDescription.text.toString()
                     )
                 }
 
@@ -50,9 +50,9 @@ class MyServicesAdapter(
                 nameUserServicesList.text = Editable.Factory().newEditable(item.name)
                 if (item.duration != 0) includeExpandedService.editDuration.text =
                     Editable.Factory().newEditable(item.duration.toString())
-                if (item.price != null) includeExpandedService.editCost.text =
+                if (item.price != 0) includeExpandedService.editCost.text =
                     Editable.Factory().newEditable(item.price.toString())
-                if (item.description != null) includeExpandedService.editDescriptionServiceList.text =
+                if (item.description != null) includeExpandedService.editDescription.text =
                     Editable.Factory().newEditable(item.description.toString())
                 iconDown.setOnClickListener {
                     includeExpandedService.root.isVisible = !includeExpandedService.root.isVisible

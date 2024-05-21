@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,7 +18,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/ic_profile" />
+            app:srcCompat="@drawable/ic_profile" />
 
         <ImageView
             android:id="@+id/icon_photo_edit"
@@ -46,6 +45,33 @@
                 android:layout_marginTop="@dimen/big_side_margin"
                 android:ellipsize="end"
                 android:lines="1"
+                android:text="@string/email"
+                android:textSize="@dimen/medium_text" />
+
+            <EditText
+                android:id="@+id/edit_set_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/big_side_margin"
+                android:layout_marginTop="8dp"
+                android:autofillHints="name"
+                android:background="@drawable/rounded_16_rectangle"
+                android:backgroundTint="@color/beige"
+                android:ellipsize="end"
+                android:ems="10"
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress"
+                android:lines="1"
+                android:maxLines="1"
+                android:padding="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/big_side_margin"
+                android:layout_marginTop="@dimen/big_side_margin"
+                android:ellipsize="end"
+                android:lines="1"
                 android:text="@string/name"
                 android:textSize="@dimen/medium_text" />
 
@@ -61,7 +87,7 @@
                 android:ellipsize="end"
                 android:ems="10"
                 android:hint="@string/hint_name"
-                android:inputType="text"
+                android:inputType="textPersonName"
                 android:lines="1"
                 android:maxLines="1"
                 android:padding="16dp" />
@@ -127,6 +153,33 @@
                 android:layout_marginTop="@dimen/big_side_margin"
                 android:ellipsize="end"
                 android:lines="1"
+                android:text="@string/last_password"
+                android:textSize="@dimen/medium_text" />
+
+            <EditText
+                android:id="@+id/edit_last_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/big_side_margin"
+                android:layout_marginTop="8dp"
+                android:autofillHints="password"
+                android:background="@drawable/rounded_16_rectangle"
+                android:backgroundTint="@color/beige"
+                android:ellipsize="end"
+                android:ems="10"
+                android:hint="@string/hint_last_password"
+                android:inputType="textVisiblePassword"
+                android:lines="1"
+                android:maxLines="1"
+                android:padding="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/big_side_margin"
+                android:layout_marginTop="@dimen/big_side_margin"
+                android:ellipsize="end"
+                android:lines="1"
                 android:text="@string/city"
                 android:textSize="@dimen/medium_text" />
 
@@ -158,7 +211,7 @@
                 android:textSize="@dimen/medium_text" />
 
             <EditText
-                android:id="@+id/edit_description_service_list"
+                android:id="@+id/edit_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/big_side_margin"

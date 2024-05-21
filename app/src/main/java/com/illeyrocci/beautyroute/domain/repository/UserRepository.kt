@@ -31,4 +31,12 @@ interface UserRepository {
         description: String,
         uid: String
     )
+
+    suspend fun changeUserData(
+        uid: String,
+        name: String,
+        phone: String,
+        address: String,
+        description: String
+    ): Resource<Unit>
 }

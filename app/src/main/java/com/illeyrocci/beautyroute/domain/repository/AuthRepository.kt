@@ -21,4 +21,8 @@ interface AuthRepository {
     suspend fun getMyUID(): Resource<String>
 
     suspend fun deleteUser(): Resource<Unit>
+
+    suspend fun getEmail(): Resource<String>
+
+    suspend fun changeCredentials(email: String, password: String): Resource<Unit>
 }

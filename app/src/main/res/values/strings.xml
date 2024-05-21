@@ -67,5 +67,7 @@
     <string name="wrong_credentials">Неверные данные для входа.</string>
     <string name="email_too_many_requests">Письмо выслано недавно. Пожалуйста, перейдите по ссылке в нём и немного подождите.</string>
     <string name="remember">Запомнить</string>
+    <string name="hint_last_password">Для смены пароля, введите действующий</string>
+    <string name="last_password">Текущий пароль</string>
 
 </resources>
