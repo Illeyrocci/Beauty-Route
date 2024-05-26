@@ -3,6 +3,7 @@ package com.illeyrocci.beautyroute.domain.repository
 import com.illeyrocci.beautyroute.domain.model.Resource
 import com.illeyrocci.beautyroute.domain.model.User
 import kotlinx.coroutines.flow.Flow
+import java.util.Date
 
 interface UserRepository {
 
@@ -39,4 +40,10 @@ interface UserRepository {
         address: String,
         description: String
     ): Resource<Unit>
+
+    suspend fun changeUserScheduleSection(
+        uid: String,
+        day: Date,
+        sectionPos: Int,
+    )
 }

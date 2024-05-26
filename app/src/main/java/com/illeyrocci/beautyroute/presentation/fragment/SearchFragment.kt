@@ -40,7 +40,7 @@ class SearchFragment : Fragment() {
         val navController = findNavController()
         binding.apply {
             includeNearestAppointment.root.setOnClickListener {
-                navController.navigate(SearchFragmentDirections.searchToAppointment())
+                //navController.navigate(SearchFragmentDirections.searchToAppointment())
             }
         }
     }

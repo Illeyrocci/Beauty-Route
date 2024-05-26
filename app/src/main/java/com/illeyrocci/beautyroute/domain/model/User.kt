@@ -7,7 +7,7 @@ data class User(
     val address: String = "",
     val description: String? = null,
     val services: ArrayList<Service> = arrayListOf(),
-    val schedule: Schedule = Schedule(arrayListOf()),
-    val appointments: ArrayList<Appointment> = arrayListOf(),
+    val schedule: ArrayList<ScheduleDay> = arrayListOf(),
+    val appointments: ArrayList<String> = arrayListOf(),
     val favouriteUsers: ArrayList<String> = arrayListOf()
 )

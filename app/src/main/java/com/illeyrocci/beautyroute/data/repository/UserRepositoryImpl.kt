@@ -4,7 +4,9 @@ import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import com.illeyrocci.beautyroute.domain.model.CustomPair
 import com.illeyrocci.beautyroute.domain.model.Resource
+import com.illeyrocci.beautyroute.domain.model.ScheduleDay
 import com.illeyrocci.beautyroute.domain.model.Service
 import com.illeyrocci.beautyroute.domain.model.User
 import com.illeyrocci.beautyroute.domain.repository.UserRepository
@@ -12,6 +14,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import java.util.Date
 
 class UserRepositoryImpl(
     //TODO("INJECTION FIREBASE AUTH. VAL")
@@ -51,7 +54,7 @@ class UserRepositoryImpl(
         val listener =
             db.collection(COLLECTION_USERS_PATH).document(uid).addSnapshotListener { snapshot, e ->
                 if (snapshot != null && snapshot.exists()) {
-                    Log.d("TAGGG", snapshot.data.toString())
+                    Log.d("TAGGG", "repoiMpil ${snapshot.data}")
                     trySend(snapshot.toObject(User::class.java)!!).isSuccess
                 }
             }
@@ -82,26 +85,28 @@ class UserRepositoryImpl(
         description: String,
         uid: String
     ) {
-        val userRef = db.collection(COLLECTION_USERS_PATH).document(uid)
-        val oldArr = userRef.get().await().toObject(User::class.java)!!.services
-        oldArr[position] = oldArr[position].copy(
-            name = name,
-            duration = try {
-                duration.toInt()
-            } catch (e: Exception) {
-                0
-            },
-            price = try {
-                cost.toInt()
-            } catch (e: Exception) {
-                0
-            },
-            description = description
-        )
-        db.collection(COLLECTION_USERS_PATH).document(uid).update("services", oldArr)
+        try {
 
-        Log.d("TAGGG", oldArr.toString())
-
+            val userRef = db.collection(COLLECTION_USERS_PATH).document(uid)
+            val oldArr = userRef.get().await().toObject(User::class.java)!!.services
+            oldArr[position] = oldArr[position].copy(
+                name = name,
+                duration = try {
+                    duration.toInt()
+                } catch (e: Exception) {
+                    0
+                },
+                price = try {
+                    cost.toInt()
+                } catch (e: Exception) {
+                    0
+                },
+                description = description
+            )
+            db.collection(COLLECTION_USERS_PATH).document(uid).update("services", oldArr)
+        } catch (e: Exception) {
+            Log.d("TAGGG", "$e")
+        }
     }
 
     override suspend fun changeUserData(
@@ -121,6 +126,47 @@ class UserRepositoryImpl(
                 )
             )
 
+
+    }
+
+    override suspend fun changeUserScheduleSection(
+        uid: String,
+        date: Date,
+        sectionPos: Int,
+    ) {
+
+        try {
+            val userRef = db.collection("users").document(uid)
+            val userSnapshot = userRef.get().await()
+            val user = userSnapshot.toObject(User::class.java)!!
+            val lastArr = user.schedule
+            var dayPos: Int? = null
+            val day = (date.time/86400000L + 1) * 86400000
+            lastArr.forEachIndexed { index, it ->
+                Log.d("TAGGG", "${it.dayStartUnixTime} $day")
+
+                if (it.dayStartUnixTime == day) {
+                    dayPos = index
+                }
+            }
+
+            if (dayPos == null) {
+                val sections: ArrayList<CustomPair> = arrayListOf()
+                repeat(96) { sections.add(CustomPair(false, null)) }
+                lastArr.add(ScheduleDay(dayStartUnixTime = day, sections = sections))
+                dayPos = lastArr.size - 1
+            }
+            lastArr[dayPos!!].sections[sectionPos] =
+                lastArr[dayPos!!].sections[sectionPos].copy(first = !lastArr[dayPos!!].sections[sectionPos].first)
+
+            db.collection("users").document(uid).update(
+                mapOf(
+                    "schedule" to lastArr
+                )
+            )
+        } catch (e: Exception) {
+            Log.d("TAGGG", "$e")
+        }
 
     }
 }

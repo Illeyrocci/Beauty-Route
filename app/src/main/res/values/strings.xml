@@ -69,5 +69,6 @@
     <string name="remember">Запомнить</string>
     <string name="hint_last_password">Для смены пароля, введите действующий</string>
     <string name="last_password">Текущий пароль</string>
+    <string name="appointment_here">appointment here</string>
 
 </resources>

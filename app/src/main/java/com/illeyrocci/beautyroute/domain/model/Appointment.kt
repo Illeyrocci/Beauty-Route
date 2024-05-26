@@ -1,6 +1,9 @@
 package com.illeyrocci.beautyroute.domain.model
 
+import java.util.UUID
+
 data class Appointment(
+    val id: String = UUID.randomUUID().toString(),
     val clientId: String="",
     val salonId: String="",
     val service: Service,

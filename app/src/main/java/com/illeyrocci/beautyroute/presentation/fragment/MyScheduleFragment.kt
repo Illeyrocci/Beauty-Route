@@ -1,15 +1,34 @@
 package com.illeyrocci.beautyroute.presentation.fragment
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.illeyrocci.beautyroute.R
 import com.illeyrocci.beautyroute.databinding.FragmentMyScheduleBinding
+import com.illeyrocci.beautyroute.presentation.recycler.MyScheduleAdapter
+import com.illeyrocci.beautyroute.presentation.viewmodel.MyScheduleViewModel
+import com.illeyrocci.beautyroute.presentation.viewmodel.MyScheduleViewModelFactory
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MyScheduleFragment : Fragment() {
 
@@ -19,11 +38,26 @@ class MyScheduleFragment : Fragment() {
             "Cannot access binding because it is null. Is the view visible?"
         }
 
+    private val viewModel: MyScheduleViewModel by viewModels { MyScheduleViewModelFactory() }
+
+    private lateinit var adapter: MyScheduleAdapter
+
+    private lateinit var navController: NavController
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        navController = findNavController()
+        val onBlockSlot: (Int) -> Unit = { pos: Int ->
+            viewModel.updateSlotByPosition(pos)
+        }
+        val onGoToAppointment: (Int) -> Unit = { pos: Int ->
+            navController.navigate(MyScheduleFragmentDirections.myScheduleToAppointment(viewModel.getCurrentDay()!!.sections[pos].second!!))
+        }
+
+        adapter = MyScheduleAdapter(onBlockSlot, onGoToAppointment)
         _binding = FragmentMyScheduleBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -31,13 +65,52 @@ class MyScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setFragmentResultListener(
+            DatePickerFragment.REQUEST_KEY_DATE
+        ) { _, bundle ->
+            val newDate =
+                bundle.customGetSerializable<Date>(DatePickerFragment.BUNDLE_KEY_DATE) as Date
+            viewModel.setDate(newDate)
+            requireActivity().findViewById<TextView>(R.id.text_toolbar).text =
+                SimpleDateFormat("MMMM, d", Locale.GERMAN).format(newDate)
+        }
+
         requireActivity().apply {
             findViewById<Toolbar>(R.id.my_toolbar).apply {
                 menu.clear()
                 inflateMenu(R.menu.action_schedule)
+                setOnMenuItemClickListener {
+                    if (it.itemId == R.id.edit_schedule) {
+                        navController.navigate(
+                            MyScheduleFragmentDirections.myScheduleToDatePicker(
+                                viewModel.getDate()
+                            )
+                        )
+
+                    }
+                    return@setOnMenuItemClickListener true
+                }
                 isVisible = true
             }
             findViewById<BottomNavigationView>(R.id.bottom_navigation).isVisible = false
+        }
+
+        with(binding) {
+            myScheduleGrid.adapter = adapter
+        }
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collectLatest { state ->
+                    binding.apply {
+                        try {
+                            adapter.update(state.schedule[viewModel.getCurrentDayIndex()!!])
+                        } catch (e: Exception) {
+                            Log.d("TAGGG", viewModel.getCurrentDayIndex().toString())
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -45,5 +118,14 @@ class MyScheduleFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    @Suppress("DEPRECATION")
+    private inline fun <reified T : Serializable> Bundle.customGetSerializable(key: String): T? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getSerializable(key, T::class.java)
+        } else {
+            getSerializable(key) as? T
+        }
     }
 }

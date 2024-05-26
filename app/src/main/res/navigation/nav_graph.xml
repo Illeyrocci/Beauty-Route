@@ -63,6 +63,10 @@
         <action
             android:id="@+id/appointment_to_userProfile"
             app:destination="@id/userProfileFragment" />
+        <argument
+            android:name="appointmentId"
+            app:argType="string" />
+
     </fragment>
     <fragment
         android:id="@+id/appointmentListFragment"
@@ -110,6 +114,9 @@
         <action
             android:id="@+id/mySchedule_to_appointment"
             app:destination="@id/appointmentFragment" />
+        <action
+            android:id="@+id/mySchedule_to_datePicker"
+            app:destination="@id/datePickerFragment" />
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
@@ -129,4 +136,12 @@
             android:id="@+id/userSchedule_to_userProfile"
             app:destination="@id/userProfileFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/datePickerFragment"
+        android:name="com.illeyrocci.beautyroute.presentation.fragment.DatePickerFragment"
+        android:label="DatePickerFragment" >
+        <argument
+            android:name="date"
+            app:argType="java.util.Date" />
+    </dialog>
 </navigation>
