@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.illeyrocci.beautyroute.R
 import com.illeyrocci.beautyroute.databinding.FragmentUserProfileBinding
@@ -18,6 +19,8 @@ class UserProfileFragment : Fragment() {
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
         }
+
+    private val args: UserProfileFragmentArgs by navArgs<UserProfileFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater,

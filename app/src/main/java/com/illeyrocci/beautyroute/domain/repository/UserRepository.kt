@@ -46,4 +46,6 @@ interface UserRepository {
         day: Date,
         sectionPos: Int,
     )
+
+    suspend fun searchUsers(query: String): List<User>
 }

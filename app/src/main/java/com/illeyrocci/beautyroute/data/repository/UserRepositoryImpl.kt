@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import java.util.Date
+import kotlin.math.max
+
 
 class UserRepositoryImpl(
     //TODO("INJECTION FIREBASE AUTH. VAL")
@@ -141,7 +143,7 @@ class UserRepositoryImpl(
             val user = userSnapshot.toObject(User::class.java)!!
             val lastArr = user.schedule
             var dayPos: Int? = null
-            val day = (date.time/86400000L + 1) * 86400000
+            val day = (date.time / 86400000L + 1) * 86400000
             lastArr.forEachIndexed { index, it ->
                 Log.d("TAGGG", "${it.dayStartUnixTime} $day")
 
@@ -169,4 +171,74 @@ class UserRepositoryImpl(
         }
 
     }
+
+    override suspend fun searchUsers(query: String) : List<User> {
+        return try {
+
+            val allUsers = db.collection("users").get().await().toObjects(User::class.java)
+
+            val allUsersToMark: MutableMap<User, Int> = mutableMapOf()
+
+            val lcs: (s1: String, s2: String) -> Int = { s1, s2 ->
+                val m = s1.length
+                val n = s2.length
+                val lcsTable = Array(m + 1) {
+                    IntArray(
+                        n + 1
+                    )
+                }
+
+                // Building the matrix in bottom-up way
+                for (i in 0..m) {
+                    for (j in 0..n) {
+                        if (i == 0 || j == 0) lcsTable[i][j] = 0
+                        else if (s1[i - 1] == s2[j - 1]) lcsTable[i][j] = lcsTable[i - 1][j - 1] + 1
+                        else lcsTable[i][j] =
+                            max(lcsTable[i - 1][j].toDouble(), lcsTable[i][j - 1].toDouble())
+                                .toInt()
+                    }
+                }
+
+                var index = lcsTable[m][n]
+                val temp = index
+
+                val lcs = CharArray(index + 1)
+                lcs[index] = '\u0000'
+
+                var i = m
+                var j = n
+                while (i > 0 && j > 0) {
+                    if (s1[i - 1] == s2[j - 1]) {
+                        lcs[index - 1] = s1[i - 1]
+
+                        i--
+                        j--
+                        index--
+                    } else if (lcsTable[i - 1][j] > lcsTable[i][j - 1]) i--
+                    else j--
+                }
+                temp
+            }
+
+            allUsers.forEach {
+                allUsersToMark += it to 0
+                allUsersToMark[it] = allUsersToMark[it]!! + lcs(it.description ?: "", query) * 100
+                it.services.forEach { service ->
+                    allUsersToMark[it] = allUsersToMark[it]!! + lcs(service.name, query) * 10
+                    allUsersToMark[it] =
+                        allUsersToMark[it]!! + lcs(service.description ?: "", query)
+                }
+            }
+
+            val list = allUsersToMark.toList().toMutableList()
+            list.sortWith { o1, o2 -> o2.second.compareTo(o1.second) }
+
+            val res = list.map { pair ->  pair.first }
+            res
+        } catch (e: Exception) {
+            Log.d("TAGGG", "!!!!!!!!EXCEPTION search users: $e")
+            listOf(User())
+        }
+    }
+
 }

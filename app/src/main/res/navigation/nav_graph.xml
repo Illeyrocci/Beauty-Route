@@ -126,6 +126,9 @@
         <action
             android:id="@+id/userProfile_to_userSchedule"
             app:destination="@id/userScheduleFragment" />
+        <argument
+            android:name="uid"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/userScheduleFragment"
@@ -139,7 +142,7 @@
     <dialog
         android:id="@+id/datePickerFragment"
         android:name="com.illeyrocci.beautyroute.presentation.fragment.DatePickerFragment"
-        android:label="DatePickerFragment" >
+        android:label="DatePickerFragment">
         <argument
             android:name="date"
             app:argType="java.util.Date" />

@@ -1,6 +1,7 @@
 package com.illeyrocci.beautyroute.domain.model
 
 data class User(
+    val uid: String = "",
     val name: String = "",
     val phone: String = "",
     val photo: String? = null,
