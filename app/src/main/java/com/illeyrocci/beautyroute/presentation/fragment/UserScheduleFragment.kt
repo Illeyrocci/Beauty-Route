@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -58,9 +59,10 @@ class UserScheduleFragment : Fragment() {
             viewModel.makeAppointment(
                 args.uid,
                 args.servicePosition,
-                86400000 + ((6L * 60 + pos * 15) * 60000) % 86400000 + viewModel.getDate().time - (viewModel.getDate().time % 86400000),
-                86400000 + ((6L * 60 + pos * 15 + args.duration) * 60000) % 86400000 + viewModel.getDate().time - (viewModel.getDate().time % 86400000)
+                ((6L * 60 + pos * 15) * 60000) % 86400000 + viewModel.getDate().time / 86400000 * 86400000,
+                ((6L * 60 + pos * 15 + args.duration) * 60000) % 86400000 + viewModel.getDate().time / 86400000 * 86400000
             )
+            Toast.makeText(requireActivity(), "Вы успешно записались", Toast.LENGTH_LONG).show()
         }
         requireActivity().findViewById<TextView>(R.id.text_toolbar).text =
             SimpleDateFormat("MMMM, d", Locale.GERMAN).format(viewModel.getDate())

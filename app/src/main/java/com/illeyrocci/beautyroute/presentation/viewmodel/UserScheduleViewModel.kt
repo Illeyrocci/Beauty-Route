@@ -66,18 +66,19 @@ class UserScheduleViewModel(
         state.value.schedule.forEachIndexed { index, it ->
             Log.d(
                 "TAGGG", "dayStartUnitTime=${it.dayStartUnixTime}, ${Date(it.dayStartUnixTime)}  " +
-                        "       stateTime=${(state.value.date.time / 86400000 + 1) * 86400000}, ${Date((state.value.date.time / 86400000 + 1) * 86400000)}"
+                        "   stateTime=${getDate().time}, ${getDate()}"
             )
-            if (it.dayStartUnixTime == (state.value.date.time / 86400000 + 1) * 86400000) {
+            if (it.dayStartUnixTime == getDate().time) {
                 return index
             }
         }
 
-        return addScheduleDayUseCase.invoke((state.value.date.time / 86400000 + 1) * 86400000, uid)
+        Log.d("TAGGG", "ADDEDNEWDAY")
+        return addScheduleDayUseCase.invoke(getDate().time, uid)
     }
 }
 
 data class UserScheduleUiState(
-    val date: Date = Date(),
+    val date: Date = Date(Date().time / 86400000 * 86400000),
     val schedule: ArrayList<ScheduleDay> = arrayListOf()
 )
