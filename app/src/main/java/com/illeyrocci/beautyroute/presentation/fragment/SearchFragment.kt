@@ -18,11 +18,14 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.illeyrocci.beautyroute.R
 import com.illeyrocci.beautyroute.databinding.FragmentSearchBinding
+import com.illeyrocci.beautyroute.presentation.recycler.FavouritesAdapter
 import com.illeyrocci.beautyroute.presentation.recycler.SearchAdapter
 import com.illeyrocci.beautyroute.presentation.viewmodel.SearchViewModel
 import com.illeyrocci.beautyroute.presentation.viewmodel.SearchViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class SearchFragment : Fragment() {
 
@@ -35,7 +38,7 @@ class SearchFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModels { SearchViewModelFactory(this) }
 
     private lateinit var searchAdapter: SearchAdapter
-    //private lateinit var favouriteAdapter: SearchAdapter
+    private lateinit var favouriteAdapter: FavouritesAdapter
 
     private lateinit var navController: NavController
 
@@ -48,10 +51,15 @@ class SearchFragment : Fragment() {
 
         navController = findNavController()
 
+
         val onUserClicked = { uid: String ->
             navController.navigate(SearchFragmentDirections.searchToUserProfile(uid))
         }
         searchAdapter = SearchAdapter(onUserClicked)
+        favouriteAdapter = FavouritesAdapter(onUserClicked) {
+            viewModel.excludeUserFromFavourites(it)
+            viewModel.updateFavourites()
+        }
         return binding.root
     }
 
@@ -69,12 +77,14 @@ class SearchFragment : Fragment() {
             includeNearestAppointment.root.setOnClickListener {
                 navController.navigate(
                     SearchFragmentDirections.searchToAppointment(
-                        viewModel.state.value.nearestAppointmentId!!
+                        viewModel.state.value.nearestAppointment!!.id
                     )
                 )
             }
             searchResults.adapter = searchAdapter
+            includeFavouriteList.favouriteList.adapter = favouriteAdapter
         }
+
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -82,12 +92,43 @@ class SearchFragment : Fragment() {
                     searchAdapter.update(state.searchResult)
                     binding.apply {
                         includeNearestAppointment.root.isVisible =
-                            state.nearestAppointmentId != null
+                            state.nearestAppointment != null && state.searchResult.isEmpty()
 
-                        includeFavouriteList.root.isVisible = state.favouriteUsers.isNotEmpty()
+                        if (state.nearestAppointment != null) {
+                            includeNearestAppointment.apply {
+                                viewNearestAppointment.setOnClickListener {
+                                    navController.navigate(
+                                        SearchFragmentDirections.searchToAppointment(
+                                            state.nearestAppointment.id
+                                        )
+                                    )
+                                }
 
+                                dateNearestAppointment.text = SimpleDateFormat(
+                                    "d MMMM",
+                                    Locale("ru")
+                                ).format(state.nearestAppointment.startTime)
+
+                                timeNearestAppointment.text = SimpleDateFormat(
+                                    "HH:mm",
+                                    Locale("ru")
+                                ).format(state.nearestAppointment.startTime)
+
+                                locationNearestAppointment.text = state.masterOfNearest!!.address
+                                titleNearestAppointment.text = state.nearestAppointment.service.name
+                                nameNearestAppointment.text = state.masterOfNearest.name
+
+                            }
+                        }
+
+                        includeFavouriteList.root.isVisible = state.favouriteUsers.isNotEmpty() && state.searchResult.isEmpty()
+
+                        Log.d("FINTAG", "${state.favouriteUsers}")
+                        if (state.favouriteUsers.isNotEmpty()) {
+                            favouriteAdapter.update(state.favouriteUsers)
+                        }
                         stubTextSearch.isVisible =
-                            state.nearestAppointmentId == null && state.favouriteUsers.isEmpty() && state.searchResult.isEmpty()
+                            state.nearestAppointment == null && state.favouriteUsers.isEmpty() && state.searchResult.isEmpty()
 
                         Log.d("TAGGG", "bebe ${state.searchResult}")
 
@@ -114,12 +155,12 @@ class SearchFragment : Fragment() {
                             Log.d("TAGGG", "closed")
 
                             includeNearestAppointment.root.isVisible =
-                                state.nearestAppointmentId != null
+                                state.nearestAppointment != null && state.searchResult.isEmpty()
 
-                            includeFavouriteList.root.isVisible = state.favouriteUsers.isNotEmpty()
+                            includeFavouriteList.root.isVisible = state.favouriteUsers.isNotEmpty() && state.searchResult.isEmpty()
 
                             stubTextSearch.isVisible =
-                                state.nearestAppointmentId == null && state.favouriteUsers.isEmpty() && state.searchResult.isEmpty()
+                                state.nearestAppointment == null && state.favouriteUsers.isEmpty() && state.searchResult.isEmpty()
                             searchResults.isVisible = false
                             viewModel.clearSearch()
                             return@setOnCloseListener true
@@ -128,9 +169,11 @@ class SearchFragment : Fragment() {
                     Log.d("TAGGG", "$state")
 
                 }
-
             }
         }
+
+        viewModel.updateFavourites()
+        viewModel.updateNearestAppointment()
     }
 
     override fun onDestroyView() {

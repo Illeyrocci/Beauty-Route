@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.illeyrocci.beautyroute.data.repository.AuthRepositoryImpl
 import com.illeyrocci.beautyroute.data.repository.MediaRepositoryImpl
 import com.illeyrocci.beautyroute.data.repository.UserRepositoryImpl
+import com.illeyrocci.beautyroute.domain.usecase.AddToFavouritesUseCase
 import com.illeyrocci.beautyroute.domain.usecase.GetUserDataUseCase
 
 class UserProfileViewModelFactory() :
@@ -16,7 +17,8 @@ class UserProfileViewModelFactory() :
             MediaRepositoryImpl()
             @Suppress("UNCHECKED_CAST")
             return UserProfileViewModel(
-                GetUserDataUseCase(userRepository)
+                GetUserDataUseCase(userRepository),
+                AddToFavouritesUseCase(authRepository, userRepository)
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

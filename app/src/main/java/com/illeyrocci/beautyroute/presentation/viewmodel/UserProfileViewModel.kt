@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.illeyrocci.beautyroute.domain.model.Service
+import com.illeyrocci.beautyroute.domain.usecase.AddToFavouritesUseCase
 import com.illeyrocci.beautyroute.domain.usecase.GetUserDataUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 
 class UserProfileViewModel(
     private val getUserDataUseCase: GetUserDataUseCase,
+    private val addToFavouritesUseCase: AddToFavouritesUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(UserProfileUiState())
@@ -43,6 +45,12 @@ class UserProfileViewModel(
                     )
                 }
             }
+        }
+    }
+
+    fun addToFavourites(uid: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            addToFavouritesUseCase(uid)
         }
     }
 }

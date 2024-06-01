@@ -6,7 +6,7 @@ import com.illeyrocci.beautyroute.domain.model.Appointment
 import com.illeyrocci.beautyroute.domain.model.User
 import com.illeyrocci.beautyroute.domain.usecase.DeleteAppointmentUseCase
 import com.illeyrocci.beautyroute.domain.usecase.GetAppointmentByIdUseCase
-import com.illeyrocci.beautyroute.domain.usecase.GetUserById
+import com.illeyrocci.beautyroute.domain.usecase.GetUserByIdUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class AppointmentViewModel(
     private val getAppointmentByIdUseCase: GetAppointmentByIdUseCase,
     private val deleteAppointmentUseCase: DeleteAppointmentUseCase,
-    private val getUserById: GetUserById
+    private val getUserByIdUseCase: GetUserByIdUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(Pair(Appointment(), User()))
@@ -27,8 +27,8 @@ class AppointmentViewModel(
     fun setAppointment(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val appointment = getAppointmentByIdUseCase(id)
-            val user = getUserById(appointment.salonId)
-            _state.value = Pair(appointment, user)
+            val user = getUserByIdUseCase(appointment.salonId)
+            _state.value = Pair(appointment, user!!)
         }
     }
 

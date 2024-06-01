@@ -12,7 +12,7 @@ class AddServiceImageUseCase(
 ) {
     suspend operator fun invoke(position: Int, uri: Uri) {
         val uid = authRepository.getMyUID().data!!
-        val services = userRepository.getUserDataSnapshot(uid).services
+        val services = userRepository.getUserDataSnapshot(uid)!!.services
         val path =
             "/service_photo/${uid}/${services[position].uid}}"
 

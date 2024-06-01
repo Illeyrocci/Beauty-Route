@@ -6,9 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.illeyrocci.beautyroute.data.repository.AuthRepositoryImpl
 import com.illeyrocci.beautyroute.data.repository.UserRepositoryImpl
+import com.illeyrocci.beautyroute.domain.usecase.ExcludeUserFromFavouritesUseCase
 import com.illeyrocci.beautyroute.domain.usecase.FindMastersUseCase
+import com.illeyrocci.beautyroute.domain.usecase.GetFavouritesUseCase
+import com.illeyrocci.beautyroute.domain.usecase.GetNearestAppointmentUseCase
+import com.illeyrocci.beautyroute.domain.usecase.GetUserByIdUseCase
 
-class SearchViewModelFactory (
+class SearchViewModelFactory(
     //TODO("INJECTION REPOS")
     owner: SavedStateRegistryOwner
 ) :
@@ -26,6 +30,10 @@ class SearchViewModelFactory (
             @Suppress("UNCHECKED_CAST")
             return SearchViewModel(
                 FindMastersUseCase(userRepository),
+                ExcludeUserFromFavouritesUseCase(authRepository, userRepository),
+                GetFavouritesUseCase(authRepository, userRepository),
+                GetNearestAppointmentUseCase(authRepository, userRepository),
+                GetUserByIdUseCase(userRepository),
                 handle
             ) as T
         }

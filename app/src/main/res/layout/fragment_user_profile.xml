@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_back">
@@ -103,6 +103,29 @@
             app:layout_constraintTop_toBottomOf="@id/description_user_profile" />
 
         <TextView
+            android:id="@+id/text_add_to_favourites"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_user_profile"
+            android:text="@string/add_to_favourites"
+            android:layout_marginHorizontal="@dimen/side_margin"
+            android:paddingTop="@dimen/side_margin"
+            android:textSize="@dimen/large_text"
+            />
+
+        <View
+            android:id="@+id/divider_user_profile2"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:layout_marginVertical="@dimen/side_margin"
+            android:background="@color/bright_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_add_to_favourites" />
+
+        <TextView
             android:id="@+id/text_services"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -114,7 +137,7 @@
             android:textSize="@dimen/large_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider_user_profile" />
+            app:layout_constraintTop_toBottomOf="@id/divider_user_profile2" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/user_services_list"

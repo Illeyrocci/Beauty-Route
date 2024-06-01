@@ -65,7 +65,8 @@ class UserRepositoryImpl(
         awaitClose { listener.remove() }
     }
 
-    override suspend fun getUserDataSnapshot(uid: String): User {
+    override suspend fun getUserDataSnapshot(uid: String?): User? {
+        if (uid == null) return null
         return db.collection(COLLECTION_USERS_PATH).document(uid).get().await()
             .toObject(User::class.java)!!
     }
@@ -351,5 +352,45 @@ class UserRepositoryImpl(
         val newAppointments = oldAppointments - id
         userRef.update("appointments", newAppointments).await()
 
+    }
+
+    override suspend fun addToFavourites(uid: String, myId: String) {
+        val userRef = db.collection("users").document(myId)
+        val userSnapshot = userRef.get().await()
+
+        val user = userSnapshot.toObject(User::class.java)!!
+
+        val oldFavouriteUsers = user.favouriteUsers
+
+        val newFavouriteUsers = (oldFavouriteUsers + uid).toSet().toList()
+        userRef.update("favouriteUsers", newFavouriteUsers).await()
+    }
+
+    override suspend fun excludeUserFromFavourites(id: String, myId: String) {
+        val userRef = db.collection("users").document(myId)
+        val userSnapshot = userRef.get().await()
+
+        val user = userSnapshot.toObject(User::class.java)!!
+
+        val oldFavouriteUsers = user.favouriteUsers
+
+        val newFavouriteUsers = (oldFavouriteUsers - id) as ArrayList<String>
+        userRef.update("favouriteUsers", newFavouriteUsers).await()
+    }
+
+    override suspend fun getFavourites(myId: String): ArrayList<String> {
+        val userRef = db.collection("users").document(myId)
+        val userSnapshot = userRef.get().await()
+
+        return userSnapshot.toObject(User::class.java)!!.favouriteUsers
+    }
+
+    override suspend fun getNearestAppointment(myId: String) : Appointment? {
+        val userRef = db.collection("users").document(myId)
+        val userSnapshot = userRef.get().await()
+
+        val user = userSnapshot.toObject(User::class.java)!!
+
+        return user.appointments.firstOrNull()?.let{ getAppointmentById(it) }
     }
 }

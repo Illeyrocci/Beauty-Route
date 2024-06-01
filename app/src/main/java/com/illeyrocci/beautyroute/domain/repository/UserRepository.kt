@@ -21,7 +21,7 @@ interface UserRepository {
 
     fun getUserData(uid: String): Flow<User>
 
-    suspend fun getUserDataSnapshot(uid: String): User
+    suspend fun getUserDataSnapshot(uid: String?): User?
 
     suspend fun updateServicePhotos(position: Int, urls: ArrayList<String>, uid: String)
 
@@ -62,4 +62,8 @@ interface UserRepository {
     suspend fun getAppointmentById(id: String): Appointment
 
     suspend fun deleteAppointment(id: String, saloonId: String)
+    suspend fun addToFavourites(uid: String, myId: String)
+    suspend fun excludeUserFromFavourites(id: String, myId: String)
+    suspend fun getFavourites(myId: String): ArrayList<String>
+    suspend fun getNearestAppointment(myId: String): Appointment?
 }

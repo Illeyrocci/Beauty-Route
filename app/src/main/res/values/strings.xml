@@ -70,5 +70,6 @@
     <string name="hint_last_password">Для смены пароля, введите действующий</string>
     <string name="last_password">Текущий пароль</string>
     <string name="appointment_here">appointment here</string>
+    <string name="add_to_favourites">Добавить в избранные</string>
 
 </resources>

@@ -6,7 +6,7 @@ import com.illeyrocci.beautyroute.data.repository.AuthRepositoryImpl
 import com.illeyrocci.beautyroute.data.repository.UserRepositoryImpl
 import com.illeyrocci.beautyroute.domain.usecase.DeleteAppointmentUseCase
 import com.illeyrocci.beautyroute.domain.usecase.GetAppointmentByIdUseCase
-import com.illeyrocci.beautyroute.domain.usecase.GetUserById
+import com.illeyrocci.beautyroute.domain.usecase.GetUserByIdUseCase
 
 class AppointmentViewModelFactory() :
     ViewModelProvider.Factory {
@@ -18,7 +18,7 @@ class AppointmentViewModelFactory() :
             return AppointmentViewModel(
                 GetAppointmentByIdUseCase(userRepository),
                 DeleteAppointmentUseCase(userRepository, authRepository),
-                GetUserById(userRepository)
+                GetUserByIdUseCase(userRepository)
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

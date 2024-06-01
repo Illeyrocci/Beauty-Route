@@ -73,6 +73,7 @@ class UserProfileFragment : Fragment() {
 
         binding.apply {
             userServicesList.adapter = adapter
+            textAddToFavourites.setOnClickListener { viewModel.addToFavourites(args.uid) }
         }
 
         lifecycleScope.launch {
