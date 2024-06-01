@@ -58,5 +58,8 @@ interface UserRepository {
     )
 
     suspend fun addScheduleDay(unixTime: Long, uid: String): Int
+
     suspend fun getAppointmentById(id: String): Appointment
+
+    suspend fun deleteAppointment(id: String, saloonId: String)
 }

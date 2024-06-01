@@ -338,4 +338,18 @@ class UserRepositoryImpl(
 
         return appointmentSnapshot.toObject(Appointment::class.java)!!
     }
+
+    override suspend fun deleteAppointment(id: String, saloonId: String) {
+        val appointmentRef = db.collection("appointments").document(id)
+        appointmentRef.delete().await()
+
+        val userRef = db.collection("users").document(saloonId)
+        val userSnapshot = userRef.get().await()
+
+        val user = userSnapshot.toObject(User::class.java)!!
+        val oldAppointments = user.appointments
+        val newAppointments = oldAppointments - id
+        userRef.update("appointments", newAppointments).await()
+
+    }
 }
