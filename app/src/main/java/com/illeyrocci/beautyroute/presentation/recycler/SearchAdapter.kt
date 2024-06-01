@@ -22,7 +22,9 @@ class SearchAdapter(
         ) {
 
             binding.nameMaster.text = user.name
-            binding.servicesMaster.text = user.services.map{ it.name }.reduce { acc, s -> "$acc, $s" }
+            binding.servicesMaster.text =
+                if (user.services.isNotEmpty()) user.services.map { it.name }
+                    .reduce { acc, s -> "$acc, $s" } else ""
 
             binding.root.setOnClickListener {
                 onUserClicked(user.uid)

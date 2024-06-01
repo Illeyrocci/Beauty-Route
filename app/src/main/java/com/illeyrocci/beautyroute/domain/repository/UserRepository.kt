@@ -48,4 +48,11 @@ interface UserRepository {
     )
 
     suspend fun searchUsers(query: String): List<User>
+    suspend fun makeAppointment(
+        clientId: String,
+        masterId: String,
+        servicePosition: Int,
+        startTime: Long,
+        endTime: Long
+    )
 }

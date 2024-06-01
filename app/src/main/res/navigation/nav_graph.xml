@@ -138,6 +138,18 @@
         <action
             android:id="@+id/userSchedule_to_userProfile"
             app:destination="@id/userProfileFragment" />
+        <argument
+            android:name="uid"
+            app:argType="string" />
+        <argument
+            android:name="servicePosition"
+            app:argType="integer" />
+        <argument
+            android:name="duration"
+            app:argType="integer" />
+        <action
+            android:id="@+id/userSchedule_to_datePicker"
+            app:destination="@id/datePickerFragment" />
     </fragment>
     <dialog
         android:id="@+id/datePickerFragment"

@@ -1,9 +1,10 @@
 package com.illeyrocci.beautyroute.presentation.recycler
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.illeyrocci.beautyroute.R
 import com.illeyrocci.beautyroute.databinding.ItemMyScheduleBinding
@@ -11,42 +12,42 @@ import com.illeyrocci.beautyroute.domain.model.CustomPair
 import com.illeyrocci.beautyroute.domain.model.ScheduleDay
 import java.util.Date
 
-class MyScheduleAdapter(
-    private val onBlockSlot: (Int) -> Unit,
-    private val onGoToAppointment: (Int) -> Unit,
-) : RecyclerView.Adapter<MyScheduleAdapter.TimeSlotViewHolder>() {
-
+class UserScheduleAdapter(
+    private val duration: Int,
+    private val onMakeAppointment: (Int) -> Unit
+) : RecyclerView.Adapter<UserScheduleAdapter.TimeSlotViewHolder>() {
 
     private var data: ScheduleDay
 
     init {
         val sections: ArrayList<CustomPair> = arrayListOf()
         repeat(96) { sections.add(CustomPair(false, null)) }
-        data = ScheduleDay(dayStartUnixTime = Date().time, sections = sections)
+        data = ScheduleDay(dayStartUnixTime = (Date().time / 86400000) * 86400000, sections = sections)
     }
 
     class TimeSlotViewHolder(private val binding: ItemMyScheduleBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(
-            item: CustomPair,
-            onBlockSlot: (Int) -> Unit,
-            onGoToAppointment: (Int) -> Unit
+            duration: Int,
+            sections: ArrayList<CustomPair>,
+            onMakeAppointment: (Int) -> Unit
         ) {
 
             with(binding) {
-                if (item.second == null) {
-                    root.setBackgroundResource(if (!item.first) R.color.white_back else R.color.grey_transparent)
-                    excl.isVisible = false
-                    root.setOnClickListener {
-                        onBlockSlot(adapterPosition)
-                    }
-                } else {
-                    root.setBackgroundResource(R.color.orange_transparent)
-                    excl.isVisible = true
-                    root.setOnClickListener {
-                        onGoToAppointment(adapterPosition)
-                    }
+                excl.isVisible = false
+
+                val sectionsNeeded = (duration + 14) / 15
+                var currentSlotMatches = true
+                Log.d("TAGGG", "sections $sections")
+                for (i in adapterPosition until adapterPosition+sectionsNeeded) {
+                    if (sections[i%96].first) currentSlotMatches = false
+                }
+
+                root.setBackgroundResource(if (currentSlotMatches) R.color.white_back else R.color.grey_transparent)
+
+                root.setOnClickListener {
+                    if (currentSlotMatches) onMakeAppointment(adapterPosition)
                 }
 
                 val minutes = 6 * 60 + adapterPosition * 15
@@ -65,14 +66,13 @@ class MyScheduleAdapter(
     override fun getItemCount(): Int = 96
 
     override fun onBindViewHolder(holder: TimeSlotViewHolder, position: Int) {
-        val item = data.sections[position]
-        holder.bind(item, onBlockSlot, onGoToAppointment)
+        Log.d("TAGGG", "sections ${data.dayStartUnixTime}")
+        holder.bind(duration, data.sections, onMakeAppointment)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun update(day: ScheduleDay) {
-        val diffCallback = ScheduleGridComparator(data, day)
-        val diffServices = DiffUtil.calculateDiff(diffCallback)
         data = day
-        diffServices.dispatchUpdatesTo(this)
+        notifyDataSetChanged()
     }
 }

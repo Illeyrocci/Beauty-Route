@@ -25,6 +25,7 @@ import com.illeyrocci.beautyroute.presentation.viewmodel.MyScheduleViewModel
 import com.illeyrocci.beautyroute.presentation.viewmodel.MyScheduleViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -59,6 +60,10 @@ class MyScheduleFragment : Fragment() {
 
         adapter = MyScheduleAdapter(onBlockSlot, onGoToAppointment)
         _binding = FragmentMyScheduleBinding.inflate(layoutInflater, container, false)
+
+        requireActivity().findViewById<TextView>(R.id.text_toolbar).text =
+            SimpleDateFormat("MMMM, d", Locale.GERMAN).format(viewModel.getDate())
+
         return binding.root
     }
 

@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import com.illeyrocci.beautyroute.domain.model.Appointment
 import com.illeyrocci.beautyroute.domain.model.CustomPair
 import com.illeyrocci.beautyroute.domain.model.Resource
 import com.illeyrocci.beautyroute.domain.model.ScheduleDay
@@ -32,7 +33,7 @@ class UserRepositoryImpl(
         address: String
     ): Resource<Unit> = doRequest {
         db.collection(COLLECTION_USERS_PATH).document(uid)
-            .set(User(name = name, phone = phone, address = address)).await()
+            .set(User(uid = uid, name = name, phone = phone, address = address)).await()
     }
 
     override suspend fun deleteUserFromDB(uid: String): Resource<Unit> = doRequest {
@@ -172,7 +173,7 @@ class UserRepositoryImpl(
 
     }
 
-    override suspend fun searchUsers(query: String) : List<User> {
+    override suspend fun searchUsers(query: String): List<User> {
         return try {
 
             val allUsers = db.collection("users").get().await().toObjects(User::class.java)
@@ -233,11 +234,84 @@ class UserRepositoryImpl(
             val list = allUsersToMark.toList().toMutableList()
             list.sortWith { o1, o2 -> o2.second.compareTo(o1.second) }
 
-            val res = list.map { pair ->  pair.first }
+            val res = list.map { pair -> pair.first }
             res
         } catch (e: Exception) {
             Log.d("TAGGG", "!!!!!!!!EXCEPTION search users: $e")
             listOf(User())
+        }
+    }
+
+    override suspend fun makeAppointment(
+        clientId: String,
+        masterId: String,
+        servicePosition: Int,
+        startTime: Long,
+        endTime: Long
+    ) {
+        val userRef = db.collection("users").document(clientId)
+        val userSnapshot = userRef.get().await()
+
+        if (userSnapshot.exists()) {
+            val user = userSnapshot.toObject(User::class.java)!!
+
+            val appointment = Appointment(
+                id = "",
+                clientId = clientId,
+                salonId = masterId,
+                startTime = startTime,
+                endTime = endTime,
+                service = user.services[servicePosition]
+            )
+
+            val ref = db.collection("appointments").add(appointment).await()
+            val newAppointment = appointment.copy(id = ref.id)
+            ref.update("id", ref.id).await()
+
+            val arrLst = user.appointments + newAppointment.id
+            userRef.update("appointments", arrLst).await()
+            Log.d("GAT", "exists")
+
+            val masterRef = db.collection("users").document(masterId)
+            val masterSnapshot = masterRef.get().await()
+            val master = masterSnapshot.toObject(User::class.java)
+            val schedule = master!!.schedule
+
+            val newSchedule = schedule
+
+            var found = false
+            schedule.forEach { scheduleDay ->
+                if ((startTime / 86400000) * 86400000 == scheduleDay.dayStartUnixTime) {
+                    found = true
+                }
+            }
+            if (!found) {
+                val sections: ArrayList<CustomPair> = arrayListOf()
+                repeat(96) { sections.add(CustomPair(false, null)) }
+                newSchedule.add(
+                    ScheduleDay(
+                        dayStartUnixTime = (startTime / 86400000L) * 86400000,
+                        sections = sections
+                    )
+                )
+            }
+            Log.d("TAGGG", "imhere: $startTime, $endTime")
+
+            schedule.forEachIndexed { dayIndex, day ->
+                if (startTime >= day.dayStartUnixTime && endTime < day.dayStartUnixTime + 86400000) {
+                    day.sections.forEachIndexed { index, _ ->
+                        if (startTime - day.dayStartUnixTime <= ((6L * 60 + index * 15) * 60000) % 86400000
+                            && ((6L * 60 + (index + 1) * 15) * 60000) % 86400000 <= endTime - day.dayStartUnixTime
+                        ) {
+                            Log.d("TAGGG", "imhere: $startTime, $endTime")
+                            newSchedule[dayIndex].sections[index] = CustomPair(true, ref.id)
+                        }
+                    }
+                }
+            }
+
+            userRef.update("schedule", newSchedule).await()
+
         }
     }
 

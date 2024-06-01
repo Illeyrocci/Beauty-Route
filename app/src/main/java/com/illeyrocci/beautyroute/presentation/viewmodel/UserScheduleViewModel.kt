@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.illeyrocci.beautyroute.domain.model.ScheduleDay
 import com.illeyrocci.beautyroute.domain.usecase.GetMyDataUseCase
-import com.illeyrocci.beautyroute.domain.usecase.SwitchSlotByPositionUseCase
+import com.illeyrocci.beautyroute.domain.usecase.MakeAppointmentUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,13 +15,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Date
 
-class MyScheduleViewModel(
+class UserScheduleViewModel(
     private val getMyDataUseCase: GetMyDataUseCase,
-    private val switchSlotByPositionUseCase: SwitchSlotByPositionUseCase
+    private val makeAppointmentUseCase: MakeAppointmentUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(MyScheduleUiState())
-    val state: StateFlow<MyScheduleUiState>
+    private val _state = MutableStateFlow(UserScheduleUiState())
+    val state: StateFlow<UserScheduleUiState>
         get() = _state.asStateFlow()
 
     init {
@@ -46,34 +46,22 @@ class MyScheduleViewModel(
         _state.update {
             it.copy(date = newDate)
         }
-        viewModelScope.launch {
-            switchSlotByPositionUseCase(getDate(), 0)
-            switchSlotByPositionUseCase(getDate(), 0)
-        }
     }
 
-    fun updateSlotByPosition(pos: Int) {
-        viewModelScope.launch (Dispatchers.IO) {
-            //false switchim na true i naoborot u esg dnya i u pos sekcii
-
-            switchSlotByPositionUseCase(getDate(), pos)
+    fun makeAppointment(uid: String, servicePosition: Int, startTime: Long, endTime: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            makeAppointmentUseCase(
+                servicePosition,
+                startTime,
+                endTime,
+                uid
+            )
         }
-    }
-
-    fun getCurrentDay(): ScheduleDay? {
-        _state.value.schedule.forEach {
-            if (it.dayStartUnixTime == state.value.date.time) {
-                return it
-            }
-        }
-
-        return null
     }
 
     fun getCurrentDayIndex(): Int? {
         state.value.schedule.forEachIndexed { index, it ->
-            Log.d("TAGGGG", "${it.dayStartUnixTime} ${(state.value.date.time/86400000 + 1) * 86400000}")
-            if (it.dayStartUnixTime == (state.value.date.time/86400000 + 1) * 86400000) {
+            if (it.dayStartUnixTime == (state.value.date.time / 86400000) * 86400000) {
                 return index
             }
         }
@@ -82,7 +70,7 @@ class MyScheduleViewModel(
     }
 }
 
-data class MyScheduleUiState(
+data class UserScheduleUiState(
     val date: Date = Date(),
     val schedule: ArrayList<ScheduleDay> = arrayListOf()
 )

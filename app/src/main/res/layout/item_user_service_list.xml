@@ -58,15 +58,12 @@
         app:layout_constraintTop_toTopOf="@id/edit_duration_user"
         app:srcCompat="@drawable/ic_time" />
 
-    <EditText
+    <TextView
         android:id="@+id/edit_duration_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="2dp"
         android:ellipsize="end"
-        android:hint="@string/duration"
-        android:importantForAutofill="no"
-        android:inputType="number"
         android:lines="1"
         android:maxLength="20"
         android:maxLines="1"
@@ -87,15 +84,12 @@
         app:layout_constraintTop_toTopOf="@id/edit_cost_user"
         app:srcCompat="@drawable/ic_money" />
 
-    <EditText
+    <TextView
         android:id="@+id/edit_cost_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="2dp"
         android:ellipsize="end"
-        android:hint="@string/cost"
-        android:importantForAutofill="no"
-        android:inputType="number"
         android:lines="1"
         android:maxLength="20"
         android:maxLines="1"
