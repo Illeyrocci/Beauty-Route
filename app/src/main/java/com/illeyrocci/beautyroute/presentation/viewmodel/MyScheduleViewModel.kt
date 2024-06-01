@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Date
+import java.util.TimeZone
 
 class MyScheduleViewModel(
     private val getMyDataUseCase: GetMyDataUseCase,
@@ -43,6 +44,7 @@ class MyScheduleViewModel(
     fun getDate(): Date = state.value.date
 
     fun setDate(newDate: Date) {
+
         _state.update {
             it.copy(date = newDate)
         }
@@ -72,8 +74,8 @@ class MyScheduleViewModel(
 
     fun getCurrentDayIndex(): Int? {
         state.value.schedule.forEachIndexed { index, it ->
-            Log.d("TAGGGG", "${it.dayStartUnixTime} ${(state.value.date.time/86400000 + 1) * 86400000}")
-            if (it.dayStartUnixTime == (state.value.date.time/86400000 + 1) * 86400000) {
+            Log.d("TAGGGG", "${it.dayStartUnixTime} ${state.value.date.time}")
+            if (it.dayStartUnixTime == (state.value.date.time + TimeZone.getDefault().rawOffset)/86400000 * 86400000) {
                 return index
             }
         }
@@ -83,6 +85,6 @@ class MyScheduleViewModel(
 }
 
 data class MyScheduleUiState(
-    val date: Date = Date(),
+    val date: Date = Date((Date().time/86400000) * 86400000),
     val schedule: ArrayList<ScheduleDay> = arrayListOf()
 )

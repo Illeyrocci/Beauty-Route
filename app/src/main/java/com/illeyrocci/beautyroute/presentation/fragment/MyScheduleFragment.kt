@@ -25,7 +25,6 @@ import com.illeyrocci.beautyroute.presentation.viewmodel.MyScheduleViewModel
 import com.illeyrocci.beautyroute.presentation.viewmodel.MyScheduleViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.w3c.dom.Text
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -108,6 +107,7 @@ class MyScheduleFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
                     binding.apply {
+                        Log.d("TAGGG", "mSch $state")
                         try {
                             adapter.update(state.schedule[viewModel.getCurrentDayIndex()!!])
                         } catch (e: Exception) {
