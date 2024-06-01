@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.illeyrocci.beautyroute.domain.model.ScheduleDay
+import com.illeyrocci.beautyroute.domain.usecase.AddScheduleDayUseCase
 import com.illeyrocci.beautyroute.domain.usecase.GetMyDataUseCase
 import com.illeyrocci.beautyroute.domain.usecase.MakeAppointmentUseCase
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +19,7 @@ import java.util.Date
 class UserScheduleViewModel(
     private val getMyDataUseCase: GetMyDataUseCase,
     private val makeAppointmentUseCase: MakeAppointmentUseCase,
+    private val addScheduleDayUseCase: AddScheduleDayUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(UserScheduleUiState())
@@ -59,14 +61,19 @@ class UserScheduleViewModel(
         }
     }
 
-    fun getCurrentDayIndex(): Int? {
+    suspend fun getCurrentDayIndex(uid: String): Int {
+
         state.value.schedule.forEachIndexed { index, it ->
-            if (it.dayStartUnixTime == (state.value.date.time / 86400000) * 86400000) {
+            Log.d(
+                "TAGGG", "dayStartUnitTime=${it.dayStartUnixTime}, ${Date(it.dayStartUnixTime)}  " +
+                        "       stateTime=${(state.value.date.time / 86400000 + 1) * 86400000}, ${Date((state.value.date.time / 86400000 + 1) * 86400000)}"
+            )
+            if (it.dayStartUnixTime == (state.value.date.time / 86400000 + 1) * 86400000) {
                 return index
             }
         }
 
-        return null
+        return addScheduleDayUseCase.invoke((state.value.date.time / 86400000 + 1) * 86400000, uid)
     }
 }
 

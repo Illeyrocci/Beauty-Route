@@ -58,8 +58,8 @@ class UserScheduleFragment : Fragment() {
             viewModel.makeAppointment(
                 args.uid,
                 args.servicePosition,
-                ((6L * 60 + pos * 15) * 60000) % 86400000 + viewModel.getDate().time - (viewModel.getDate().time % 86400000),
-                ((6L * 60 + pos * 15 + args.duration) * 60000) % 86400000 + viewModel.getDate().time - (viewModel.getDate().time % 86400000)
+                86400000 + ((6L * 60 + pos * 15) * 60000) % 86400000 + viewModel.getDate().time - (viewModel.getDate().time % 86400000),
+                86400000 + ((6L * 60 + pos * 15 + args.duration) * 60000) % 86400000 + viewModel.getDate().time - (viewModel.getDate().time % 86400000)
             )
         }
         requireActivity().findViewById<TextView>(R.id.text_toolbar).text =
@@ -78,6 +78,7 @@ class UserScheduleFragment : Fragment() {
             val newDate =
                 bundle.customGetSerializable<Date>(DatePickerFragment.BUNDLE_KEY_DATE) as Date
             viewModel.setDate(newDate)
+            Log.d("TAGGG", "Date we got: $newDate")
             requireActivity().findViewById<TextView>(R.id.text_toolbar).text =
                 SimpleDateFormat("MMMM, d", Locale.GERMAN).format(newDate)
         }
@@ -111,10 +112,13 @@ class UserScheduleFragment : Fragment() {
                 viewModel.state.collectLatest { state ->
                     binding.apply {
                         try {
-                            Log.d("TAGGG", "collected in sch fragment: $state")
-                            adapter.update(state.schedule[viewModel.getCurrentDayIndex()!!])
+                            Log.d(
+                                "TAGGG",
+                                "collected in sch fragment: ${viewModel.getCurrentDayIndex(args.uid)}, state = $state"
+                            )
+                            adapter.update(state.schedule[viewModel.getCurrentDayIndex(args.uid)])
                         } catch (e: Exception) {
-                            Log.d("TAGGG", viewModel.getCurrentDayIndex().toString())
+                            Log.d("TAGGG", viewModel.getCurrentDayIndex(args.uid).toString())
                         }
                     }
                 }

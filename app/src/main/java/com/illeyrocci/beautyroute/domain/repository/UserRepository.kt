@@ -55,4 +55,6 @@ interface UserRepository {
         startTime: Long,
         endTime: Long
     )
+
+    suspend fun addScheduleDay(unixTime: Long, uid: String): Int
 }

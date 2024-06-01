@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.illeyrocci.beautyroute.data.repository.AuthRepositoryImpl
 import com.illeyrocci.beautyroute.data.repository.MediaRepositoryImpl
 import com.illeyrocci.beautyroute.data.repository.UserRepositoryImpl
+import com.illeyrocci.beautyroute.domain.usecase.AddScheduleDayUseCase
 import com.illeyrocci.beautyroute.domain.usecase.GetMyDataUseCase
 import com.illeyrocci.beautyroute.domain.usecase.GetUserDataUseCase
 import com.illeyrocci.beautyroute.domain.usecase.MakeAppointmentUseCase
@@ -22,7 +23,8 @@ class UserScheduleViewModelFactory() :
                 MakeAppointmentUseCase(
                     authRepository,
                     userRepository
-                )
+                ),
+                AddScheduleDayUseCase(userRepository)
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

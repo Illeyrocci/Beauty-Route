@@ -249,6 +249,9 @@ class UserRepositoryImpl(
         startTime: Long,
         endTime: Long
     ) {
+
+        Log.d("TAGGG", "stTime: $startTime endTime: $endTime")
+
         val userRef = db.collection("users").document(clientId)
         val userSnapshot = userRef.get().await()
 
@@ -315,4 +318,17 @@ class UserRepositoryImpl(
         }
     }
 
+    override suspend fun addScheduleDay(unixTime: Long, uid: String): Int {
+        val userRef = db.collection("users").document(uid)
+        val userSnapshot = userRef.get().await()
+
+        val user = userSnapshot.toObject(User::class.java)!!
+
+        val oldSchedule = user.schedule
+        val sections: ArrayList<CustomPair> = arrayListOf()
+        repeat(96) { sections.add(CustomPair(false, null)) }
+        val newSchedule = oldSchedule + ScheduleDay(unixTime, sections)
+        userRef.update("schedule", newSchedule).await()
+        return oldSchedule.size
+    }
 }

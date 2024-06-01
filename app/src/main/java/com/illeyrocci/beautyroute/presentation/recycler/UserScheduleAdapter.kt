@@ -39,7 +39,6 @@ class UserScheduleAdapter(
 
                 val sectionsNeeded = (duration + 14) / 15
                 var currentSlotMatches = true
-                Log.d("TAGGG", "sections $sections")
                 for (i in adapterPosition until adapterPosition+sectionsNeeded) {
                     if (sections[i%96].first) currentSlotMatches = false
                 }
@@ -66,12 +65,12 @@ class UserScheduleAdapter(
     override fun getItemCount(): Int = 96
 
     override fun onBindViewHolder(holder: TimeSlotViewHolder, position: Int) {
-        Log.d("TAGGG", "sections ${data.dayStartUnixTime}")
         holder.bind(duration, data.sections, onMakeAppointment)
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun update(day: ScheduleDay) {
+        Log.d("TAGGG", "sch day = $day")
         data = day
         notifyDataSetChanged()
     }
