@@ -331,4 +331,11 @@ class UserRepositoryImpl(
         userRef.update("schedule", newSchedule).await()
         return oldSchedule.size
     }
+
+    override suspend fun getAppointmentById(id: String): Appointment {
+        val appointmentRef = db.collection("appointments").document(id)
+        val appointmentSnapshot = appointmentRef.get().await()
+
+        return appointmentSnapshot.toObject(Appointment::class.java)!!
+    }
 }

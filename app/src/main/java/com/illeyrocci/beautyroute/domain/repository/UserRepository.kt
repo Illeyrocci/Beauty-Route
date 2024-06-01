@@ -1,5 +1,6 @@
 package com.illeyrocci.beautyroute.domain.repository
 
+import com.illeyrocci.beautyroute.domain.model.Appointment
 import com.illeyrocci.beautyroute.domain.model.Resource
 import com.illeyrocci.beautyroute.domain.model.User
 import kotlinx.coroutines.flow.Flow
@@ -57,4 +58,5 @@ interface UserRepository {
     )
 
     suspend fun addScheduleDay(unixTime: Long, uid: String): Int
+    suspend fun getAppointmentById(id: String): Appointment
 }

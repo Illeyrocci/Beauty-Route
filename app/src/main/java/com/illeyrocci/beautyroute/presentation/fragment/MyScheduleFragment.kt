@@ -61,7 +61,7 @@ class MyScheduleFragment : Fragment() {
         _binding = FragmentMyScheduleBinding.inflate(layoutInflater, container, false)
 
         requireActivity().findViewById<TextView>(R.id.text_toolbar).text =
-            SimpleDateFormat("MMMM, d", Locale.GERMAN).format(viewModel.getDate())
+            SimpleDateFormat("MMMM, d", Locale("ru")).format(viewModel.getDate())
 
         return binding.root
     }
@@ -76,7 +76,7 @@ class MyScheduleFragment : Fragment() {
                 bundle.customGetSerializable<Date>(DatePickerFragment.BUNDLE_KEY_DATE) as Date
             viewModel.setDate(newDate)
             requireActivity().findViewById<TextView>(R.id.text_toolbar).text =
-                SimpleDateFormat("MMMM, d", Locale.GERMAN).format(newDate)
+                SimpleDateFormat("MMMM, d", Locale("ru")).format(newDate)
         }
 
         requireActivity().apply {

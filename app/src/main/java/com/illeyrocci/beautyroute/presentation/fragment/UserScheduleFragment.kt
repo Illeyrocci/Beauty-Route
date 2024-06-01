@@ -65,7 +65,7 @@ class UserScheduleFragment : Fragment() {
             Toast.makeText(requireActivity(), "Вы успешно записались", Toast.LENGTH_LONG).show()
         }
         requireActivity().findViewById<TextView>(R.id.text_toolbar).text =
-            SimpleDateFormat("MMMM, d", Locale.GERMAN).format(viewModel.getDate())
+            SimpleDateFormat("MMMM, d", Locale("ru")).format(viewModel.getDate())
 
         _binding = FragmentUserScheduleBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -82,7 +82,7 @@ class UserScheduleFragment : Fragment() {
             viewModel.setDate(newDate)
             Log.d("TAGGG", "Date we got: $newDate")
             requireActivity().findViewById<TextView>(R.id.text_toolbar).text =
-                SimpleDateFormat("MMMM, d", Locale.GERMAN).format(newDate)
+                SimpleDateFormat("MMMM, d", Locale("ru")).format(newDate)
         }
 
         requireActivity().apply {
