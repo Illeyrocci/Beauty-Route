@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.illeyrocci.beautyroute.domain.model.ScheduleDay
+import com.illeyrocci.beautyroute.domain.usecase.AddMyScheduleDayUseCase
 import com.illeyrocci.beautyroute.domain.usecase.GetMyDataUseCase
 import com.illeyrocci.beautyroute.domain.usecase.SwitchSlotByPositionUseCase
 import kotlinx.coroutines.Dispatchers
@@ -14,11 +15,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Date
-import java.util.TimeZone
 
 class MyScheduleViewModel(
     private val getMyDataUseCase: GetMyDataUseCase,
-    private val switchSlotByPositionUseCase: SwitchSlotByPositionUseCase
+    private val switchSlotByPositionUseCase: SwitchSlotByPositionUseCase,
+    private val addMyScheduleDayUseCase: AddMyScheduleDayUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MyScheduleUiState())
@@ -30,7 +31,6 @@ class MyScheduleViewModel(
             val userFlow = getMyDataUseCase()
 
             userFlow.collectLatest { user ->
-                Log.d("GAT", "user collected my schedule")
                 _state.update {
                     it.copy(
                         schedule = user.schedule
@@ -48,14 +48,10 @@ class MyScheduleViewModel(
         _state.update {
             it.copy(date = newDate)
         }
-        viewModelScope.launch {
-            switchSlotByPositionUseCase(getDate(), 0)
-            switchSlotByPositionUseCase(getDate(), 0)
-        }
     }
 
     fun updateSlotByPosition(pos: Int) {
-        viewModelScope.launch (Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             //false switchim na true i naoborot u esg dnya i u pos sekcii
 
             switchSlotByPositionUseCase(getDate(), pos)
@@ -72,19 +68,24 @@ class MyScheduleViewModel(
         return null
     }
 
-    fun getCurrentDayIndex(): Int? {
+    suspend fun getCurrentDayIndex(): Int {
+
         state.value.schedule.forEachIndexed { index, it ->
-            Log.d("TAGGGG", "${it.dayStartUnixTime} ${state.value.date.time}")
-            if (it.dayStartUnixTime == (state.value.date.time + TimeZone.getDefault().rawOffset)/86400000 * 86400000) {
+            Log.d(
+                "TAGGG", "dayStartUnitTime=${it.dayStartUnixTime}, ${Date(it.dayStartUnixTime)}  " +
+                        "   stateTime=${getDate().time}, ${getDate()}"
+            )
+            if (it.dayStartUnixTime == getDate().time) {
                 return index
             }
         }
 
-        return null
+        Log.d("TAGGG", "ADDEDNEWDAY")
+        return addMyScheduleDayUseCase.invoke(getDate().time)
     }
 }
 
 data class MyScheduleUiState(
-    val date: Date = Date((Date().time/86400000) * 86400000),
+    val date: Date = Date((Date().time / 86400000) * 86400000),
     val schedule: ArrayList<ScheduleDay> = arrayListOf()
 )

@@ -144,7 +144,7 @@ class UserRepositoryImpl(
             val user = userSnapshot.toObject(User::class.java)!!
             val lastArr = user.schedule
             var dayPos: Int? = null
-            val day = (date.time / 86400000L + 1) * 86400000
+            val day = (date.time / 86400000L) * 86400000
             lastArr.forEachIndexed { index, it ->
                 Log.d("TAGGG", "${it.dayStartUnixTime} $day")
 

@@ -107,7 +107,6 @@ class MyScheduleFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
                     binding.apply {
-                        Log.d("TAGGG", "mSch $state")
                         try {
                             adapter.update(state.schedule[viewModel.getCurrentDayIndex()!!])
                         } catch (e: Exception) {
